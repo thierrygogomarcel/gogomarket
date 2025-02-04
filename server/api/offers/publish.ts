@@ -1,52 +1,110 @@
 import { H3Event } from "h3";
+import { z } from "zod";
 import { getUserFromToken } from "~/server/utils/auth";
 import { Offer } from "~/server/models/Offer";
 import { Product } from '../../models/product';
+import { logger } from "~/server/utils/logger";
+
+// Input validation schema
+const PublishOfferSchema = z.object({
+  productId: z.string().trim().min(1, "Product ID is required"),
+  message: z.string().trim().min(10, "Message must be at least 10 characters long").max(500, "Message cannot exceed 500 characters")
+});
 
 export default defineEventHandler(async (event: H3Event) => {
   try {
-    // Vérifier l'authentification
+    // Authenticate user
     const user = await getUserFromToken(event);
     if (!user) {
-      throw createError({ statusCode: 401, statusMessage: "Non autorisé" });
+      logger.warn("Unauthorized offer publication attempt");
+      throw createError({ 
+        statusCode: 401, 
+        statusMessage: "Vous devez être connecté pour publier une offre" 
+      });
     }
 
-    // Récupérer les données du corps de la requête
+    // Parse and validate input
     const body = await readBody(event);
-    const { productId, message } = body;
+    const validationResult = PublishOfferSchema.safeParse(body);
 
-    if (!productId || !message) {
-      throw createError({ statusCode: 400, statusMessage: "Données invalides" });
+    if (!validationResult.success) {
+      logger.error("Invalid offer data", { 
+        errors: validationResult.error.errors, 
+        body 
+      });
+      throw createError({ 
+        statusCode: 400, 
+        statusMessage: validationResult.error.errors[0].message 
+      });
     }
 
-    // Vérifier si le produit existe et appartient à l'utilisateur
-    const product = await Product.findOne({ _id: productId, userId: user._id });
+    const { productId, message } = validationResult.data;
+
+    // Convert productId to ObjectId
+    const productObjectId = new mongoose.Types.ObjectId(productId);
+
+    // Verify product ownership and existence
+    const product = await Product.findOne({ 
+      _id: productObjectId, 
+      userId: new mongoose.Types.ObjectId(user._id) 
+    });
 
     if (!product) {
-      throw createError({ statusCode: 404, statusMessage: "Produit introuvable ou non autorisé" });
+      logger.warn("Attempt to create offer for non-existent or unauthorized product", { 
+        productId, 
+        userId: user._id 
+      });
+      throw createError({ 
+        statusCode: 404, 
+        statusMessage: "Produit non trouvé ou non autorisé" 
+      });
     }
 
-    // Vérifier si une offre existe déjà pour ce produit
-    const existingOffer = await Offer.findOne({ productId, userId: user._id });
+    // Check for existing offer
+    const existingOffer = await Offer.findOne({ productId: productObjectId, userId: user._id });
     if (existingOffer) {
-      throw createError({ statusCode: 400, statusMessage: "Une offre existe déjà pour ce produit" });
+      logger.warn("Duplicate offer creation attempt", { 
+        productId, 
+        userId: user._id 
+      });
+      throw createError({ 
+        statusCode: 409, 
+        statusMessage: "Une offre existe déjà pour ce produit" 
+      });
     }
 
-    // Créer une nouvelle offre
+    // Create new offer
     const newOffer = new Offer({
-      userId: user._id,
-      productId,
+      userId: user.userId,  // Use userId from token instead of _id
+      productId: productObjectId,
       message,
       status: "publié",
+      createdAt: new Date()
     });
 
     await newOffer.save();
 
-    return { success: true, message: "Offre publiée avec succès", offer: newOffer };
+    logger.info("Offer published successfully", { 
+      offerId: newOffer._id, 
+      productId, 
+      userId: user._id 
+    });
+
+    return { 
+      success: true, 
+      message: "Offre publiée avec succès", 
+      offer: newOffer 
+    };
+
   } catch (error: any) {
+    logger.error("Offer publication error", { 
+      error: error.message, 
+      stack: error.stack 
+    });
+
     return createError({
       statusCode: error.statusCode || 500,
-      statusMessage: error.statusMessage || "Erreur serveur",
+      statusMessage: error.statusMessage || "Erreur interne du serveur"
     });
   }
 });

@@ -1,52 +1,102 @@
 <template>
-  <div class="card p-8" style="min-width: 600px; margin: 0 auto;"   >
-    <div class="bg-white rounded-lg shadow-lg p-8">
-      <h1 class="text-2xl font-bold text-green-600 mb-8">Publier une offre</h1>
-
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+      <h1 class="text-3xl font-bold text-green-600 mb-6 text-center">Publier une offre</h1>
+      
       <form @submit.prevent="handleSubmit" class="space-y-6">
-        <!-- Sélection du produit -->
+        <!-- Category Selection -->
         <div>
-          <h2 class="text-lg font-medium text-gray-900 mb-4">Détails du produit</h2>
-          <div class="grid grid-cols-1 gap-6">
-            <div>
-              <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
-              <select id="category" v-model="selectedCategory" @change="updateProducts" required class="input-field">
-                <option v-for="category in categories" :key="category" :value="category">
-                  {{ category }}
-                </option>
-              </select>
-            </div>
-            
-            <div>
-              <label for="product" class="block text-sm font-medium text-gray-700">Produit</label>
-              <select id="product" v-model="selectedProduct" @change="fillProductDetails" required class="input-field">
-                <option v-for="product in filteredProducts" :key="product.id" :value="product">
-                  {{ product.name }}
-                </option>
-              </select>
-            </div>
+          <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
+            Sélectionnez une catégorie
+          </label>
+          <select 
+            id="category" 
+            v-model="selectedCategory" 
+            @change="updateProducts" 
+            required 
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+          >
+            <option value="" disabled>Choisissez une catégorie</option>
+            <option 
+              v-for="category in categories" 
+              :key="category" 
+              :value="category"
+            >
+              {{ category }}
+            </option>
+          </select>
+        </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Prix (FCFA)</label>
-              <input v-model="selectedProduct.price" type="number" disabled class="input-field bg-gray-100" />
-            </div>
+        <!-- Product Selection -->
+        <div>
+          <label for="product" class="block text-sm font-medium text-gray-700 mb-2">
+            Choisissez votre produit
+          </label>
+          <select 
+            id="product" 
+            v-model="selectedProduct" 
+            @change="fillProductDetails" 
+            :disabled="!selectedCategory"
+            required 
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+          >
+            <option value="" disabled>
+              {{ selectedCategory ? 'Sélectionnez un produit' : 'Choisissez d\'abord une catégorie' }}
+            </option>
+            <option 
+              v-for="product in filteredProducts" 
+              :key="product._id" 
+              :value="product"
+            >
+              {{ product.name }}
+            </option>
+          </select>
+        </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Stock disponible (kg)</label>
-              <input v-model="selectedProduct.stock" type="number" disabled class="input-field bg-gray-100" />
-            </div>
+        <!-- Product Details -->
+        <div v-if="selectedProduct?._id" class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Prix (FCFA)</label>
+            <input 
+              :value="selectedProduct?.price" 
+              type="number" 
+              disabled 
+              class="w-full p-3 bg-gray-100 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Stock disponible (kg)</label>
+            <input 
+              :value="selectedProduct?.stock" 
+              type="number" 
+              disabled 
+              class="w-full p-3 bg-gray-100 border border-gray-300 rounded-md"
+            />
           </div>
         </div>
 
-        <!-- Description éditable -->
+        <!-- Offer Description -->
         <div>
-          <h2 class="text-lg font-medium text-gray-900 mb-4">Message de l'offre</h2>
-          <textarea id="description" v-model="description" rows="4" required class="input-field"></textarea>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+            Description de l'offre
+          </label>
+          <textarea 
+            id="description" 
+            v-model="description" 
+            rows="4" 
+            required 
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
+            placeholder="Décrivez votre offre en détail..."
+          ></textarea>
         </div>
 
-        <!-- Bouton de soumission -->
+        <!-- Submit Button -->
         <div class="flex justify-end">
-          <button type="submit" :disabled="loading" class="submit-button">
+          <button 
+            type="submit" 
+            :disabled="loading || !isFormValid"
+            class="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors disabled:opacity-50"
+          >
             <span v-if="loading">Publication en cours...</span>
             <span v-else>Publier l'offre</span>
           </button>
@@ -56,33 +106,77 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
 import { useAuth } from '~/composables/useAuth';
 
-const categories = ['Légumes', 'Fruits', 'Céréales', 'Tubercules'];
-const allProducts = ref([
-  { id: 1, name: 'Tomate', category: 'Légumes', price: 500, stock: 100 },
-  { id: 2, name: 'Banane', category: 'Fruits', price: 300, stock: 200 },
-]);
+// Types
+interface Product {
+  _id: string;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+}
 
+// Constants
+const categories = ['Légumes', 'Fruits', 'Céréales', 'Tubercules'];
+
+// Reactive State
 const selectedCategory = ref('');
-const selectedProduct = ref({});
+const selectedProduct = ref<Product | null>(null);
 const description = ref('');
 const loading = ref(false);
-const router = useRouter();
-const { state } = useAuth();
+const products = ref<Product[]>([]);
 
+// Fetch products on component mount
+const fetchProducts = async (selectedCategory?: string) => {
+  try {
+    const response = await $fetch<{
+      products: Product[];
+      total: number;
+      page: number;
+      totalPages: number;
+    }>('/api/products/list', {
+      method: 'GET',
+      query: { 
+        limit: 100,  // Fetch all products
+        ...(selectedCategory ? { category: selectedCategory } : {})
+      }
+    });
+    
+    console.log('Fetched products:', response.products);
+    products.value = response.products;
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+    toast.error('Impossible de charger les produits');
+  }
+};
+
+// Lifecycle hook
+onMounted(() => fetchProducts());
+
+// Computed Properties
 const filteredProducts = computed(() => 
-  allProducts.value.filter(p => p.category === selectedCategory.value)
+  products.value.filter(p => p.category === selectedCategory.value)
 );
 
+const isFormValid = computed(() => 
+  selectedProduct.value && 
+  description.value.trim().length >= 10 &&
+  useAuth().state.user?.id
+);
+
+// Methods
 const updateProducts = () => {
-  selectedProduct.value = {};
+  selectedProduct.value = null;
   description.value = '';
+  
+  if (selectedCategory.value) {
+    fetchProducts(selectedCategory.value);
+  }
 };
 
 const fillProductDetails = () => {
@@ -92,50 +186,37 @@ const fillProductDetails = () => {
 };
 
 const handleSubmit = async () => {
+  if (!isFormValid.value) {
+    toast.error("Veuillez remplir tous les champs correctement.");
+    return;
+  }
+
   try {
     loading.value = true;
+
     const offerData = {
-      productId: selectedProduct.value.id,
-      description: description.value,
+      productId: selectedProduct.value!._id,
+      message: description.value.trim(),
     };
 
-    const token = state.token;
-    console.log("Token utilisé :", state.token);
+    const response = await $fetch('/api/offers/publish', {
+      method: 'POST',
+      body: offerData,
+      headers: { Authorization: `Bearer ${useAuth().state.token}` },
+    });
 
-    await $fetch('/api/offers/publish', { method: 'POST', body: offerData, headers: { Authorization: `Bearer ${token}` } });
-   console.log("Données envoyées :", offerData);
-
-   toast.success('Offre publiée avec succès');
-    router.push('/mes-offres');
-  } catch (error) {
-    toast.error(error.message || 'Erreur lors de la publication');
+    toast.success("Offre publiée avec succès !");
+    useRouter().push("/mes-offres");
+  } catch (error: any) {
+    console.error("Erreur lors de la publication :", error);
+    toast.error(error.message || "Erreur lors de la publication de l'offre");
   } finally {
     loading.value = false;
   }
 };
 </script>
 
-<style>
-.input-field {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0.375rem;
-  outline: none;
-  transition: border 0.2s;
-}
-.input-field:focus {
-  border-color: #4CAF50;
-}
-.submit-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.375rem;
-  font-weight: bold;
-  transition: background 0.2s;
-}
-.submit-button:hover {
-  background-color: #388E3C;
-}
+<style scoped>
+/* Tailwind CSS is already imported via the Nuxt configuration */
+/* This empty style section resolves the PostCSS processing error */
 </style>

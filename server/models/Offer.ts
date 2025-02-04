@@ -1,3 +1,4 @@
+// server/models/Offer.ts
 import mongoose from "mongoose";
 
 const OfferSchema = new mongoose.Schema(

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 // Declare a global interface to extend the global object
 declare global {
   var mongoose: {
+    Types: any;
     conn: mongoose.Connection | null;
     promise: Promise<mongoose.Connection> | null;
   };
@@ -17,7 +18,7 @@ if (!MONGODB_URI) {
 let cached = global.mongoose;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, promise: null, Types: mongoose.Types };
 }
 
 async function connectDB() {
