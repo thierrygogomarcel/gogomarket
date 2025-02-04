@@ -37,7 +37,6 @@ export default defineNuxtRouteMiddleware((to) => {
 
   // Récupérer l'utilisateur authentifié
   const user = getAuthenticatedUser();
-  console.log('[AUTH LOG] middleware\auth.ts loaded with authHeader:', user);  
   // Liste des routes protégées
   const protectedRoutes = ['/dashboard', '/publier'];
 

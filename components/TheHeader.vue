@@ -134,6 +134,9 @@
                    <NuxtLink to="/mes-produits" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                      Gérer mes produits
                    </NuxtLink>
+                   <NuxtLink to="/mes-offres" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                     Gérer mes offres
+                   </NuxtLink>
                    <NuxtLink to="/mes-ventes" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                      Mes ventes
                    </NuxtLink>

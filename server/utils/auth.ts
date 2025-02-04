@@ -18,6 +18,7 @@ export const comparePassword = async (
 
 // JWT payload interface
 export interface JwtPayloadWithUserType {
+  _id: any
   userId: string
   email: string
   role: string
@@ -47,7 +48,6 @@ export const getUserFromToken = async (event: H3Event): Promise<JwtPayloadWithUs
 
   const token = authHeader.replace('Bearer ', '')
   const config = useRuntimeConfig()
-  console.log('[AUTH LOG] server utils\auth.ts loaded with authHeader:', token);
   return verifyToken(token, config)
 }
   
