@@ -1,49 +1,57 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
+import { logger } from './logger'
 
-// Declare a global interface to extend the global object
-declare global {
-  var mongoose: {
-    Types: any;
-    conn: mongoose.Connection | null;
-    promise: Promise<mongoose.Connection> | null;
-  };
-}
-
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gogomarket';
+const MONGODB_URI = process.env.MONGODB_URI
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable');
+  throw new Error('Please define the MONGODB_URI environment variable')
 }
 
-let cached = global.mongoose;
+let cached = global.mongoose
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null, Types: mongoose.Types };
+  cached = global.mongoose = { conn: null, promise: null }
 }
 
-async function connectDB() {
+export async function connectDB() {
   if (cached.conn) {
-    return cached.conn;
+    return cached.conn
   }
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
-    };
+      bufferCommands: true, // Changed to true to allow buffering
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    }
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose.connection;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI, opts)
+      .then(mongoose => {
+        logger.info('MongoDB connected successfully')
+        return mongoose
+      })
+      .catch(error => {
+        logger.error('MongoDB connection error:', error)
+        throw error
+      })
   }
 
   try {
-    cached.conn = await cached.promise;
+    cached.conn = await cached.promise
   } catch (e) {
-    cached.promise = null;
-    throw e;
+    cached.promise = null
+    throw e
   }
 
-  return cached.conn;
+  return cached.conn
 }
 
-export default connectDB;
+export async function disconnectDB() {
+  if (cached.conn) {
+    await mongoose.disconnect()
+    cached.conn = null
+    cached.promise = null
+  }
+}
+
+export default connectDB

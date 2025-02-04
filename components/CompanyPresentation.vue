@@ -1,10 +1,10 @@
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6">
-    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity cursor-pointer" @click="closeCard"></div>
+    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity cursor-pointer" @click="$emit('close')"></div>
     
     <div class="relative bg-white rounded-lg shadow-xl max-w-4xl w-full mx-auto animate-slide-down">
       <button 
-        @click="closeCard" 
+        @click="$emit('close')" 
         class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 cursor-pointer"
       >
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -14,17 +14,18 @@
 
       <div class="p-6">
         <div class="flex items-center mb-6">
-  <img 
-    src="/images/profile.png" 
-    alt="Photo professionnelle" 
-    class="h-20 w-20 rounded-full object-cover border-2 border-primary-500"
-    onerror="this.src='https://img.freepik.com/free-photo/african-american-business-man-working-laptop-computer-office_1303-15719.jpg'"
-  />
-  <div class="ml-4">
-    <h2 class="text-2xl font-bold text-gray-900">Bienvenue chez GogoSoft & Co</h2>
-    <p class="text-sm text-gray-500 italic">Innovation et qualité au service de l'Afrique qui marche vers la modernité</p>
-  </div>
-</div>
+          <img 
+            src="/images/profile.png" 
+            alt="Photo professionnelle" 
+            class="h-20 w-20 rounded-full object-cover border-2 border-primary-500"
+            onerror="this.src='https://img.freepik.com/free-photo/african-american-business-man-working-laptop-computer-office_1303-15719.jpg'"
+          />
+          <div class="ml-4">
+            <h2 class="text-2xl font-bold text-gray-900">Bienvenue chez GogoSoft & Co</h2>
+            <p class="text-sm text-gray-500 italic">Innovation et qualité au service de l'Afrique qui marche vers la modernité</p>
+          </div>
+        </div>
+
         <div class="flex space-x-6 mb-6">
           <a href="tel:+2250758966156" class="flex items-center text-primary-600 hover:text-primary-700">
             <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,10 +79,6 @@ const solutions = ref([
   { image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=300', title: 'Analyse de données', alt: 'Solution 2' },
   { image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300', title: 'Solutions mobiles', alt: 'Solution 3' }
 ])
-
-const closeCard = () => {
-  emit('close')
-}
 </script>
 
 <style scoped>

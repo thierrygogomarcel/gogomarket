@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { toast } from 'vue3-toastify'
-import { useCookie, useRouter } from 'nuxt/app'
+import { useToast } from '~/composables/useToast'
+import { useRouter } from 'nuxt/app'
 
 interface UserData {
   id?: string
@@ -23,13 +23,14 @@ interface AuthState {
 
 export const useAuth = defineStore('auth', () => {
   const state = ref<AuthState>({
-    token: useCookie<string | null>('auth_token').value,
+    token: useCookie('auth_token').value,
     user: null,
     loading: false
   })
   
   const isAuthenticated = computed(() => !!state.value.token && !!state.value.user)
   const router = useRouter()
+  const toast = useToast()
 
   async function login(email: string, password: string) {
     try {
@@ -48,9 +49,10 @@ export const useAuth = defineStore('auth', () => {
   
       state.value.token = response.token
       state.value.user = response.user
-      useCookie('auth_token').value = response.token
+      const tokenCookie = useCookie('auth_token')
+      tokenCookie.value = response.token
 
-      // toast.success('composables/useAuth: Connexion réussie !')
+      toast.success('Connexion réussie')
 
       // Redirection based on user role
       const redirectPath = getRedirectPath(response.user)
@@ -60,29 +62,9 @@ export const useAuth = defineStore('auth', () => {
     } catch (error: any) {
       state.value.token = null
       state.value.user = null
-      useCookie('auth_token').value = null
-      console.error('❌ Erreur de connexion:', error)
-      // toast.error(error.message || 'Erreur de connexion')
-      throw error
-    } finally {
-      state.value.loading = false
-    }
-  }
-
-  async function register(userData: Partial<UserData> & { password: string }) {
-    try {
-      state.value.loading = true
-      const response = await $fetch<{
-        token: string
-        user: UserData
-      }>('/api/auth/register', {
-        method: 'POST',
-        body: userData
-      })
-
-      return response
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de l\'inscription')
+      const tokenCookie = useCookie('auth_token')
+      tokenCookie.value = null
+      toast.error(error.message || 'Erreur de connexion')
       throw error
     } finally {
       state.value.loading = false
@@ -102,25 +84,16 @@ export const useAuth = defineStore('auth', () => {
   function logout() {
     state.value.token = null
     state.value.user = null
-    useCookie('auth_token').value = null
+    const tokenCookie = useCookie('auth_token')
+    tokenCookie.value = null
     toast.success('Déconnexion réussie')
     router.push('/')
-  }
-
-  function requireAuth() {
-    if (!isAuthenticated.value) {
-      router.push('/connexion')
-      return false
-    }
-    return true
   }
 
   return {
     state,
     isAuthenticated,
     login,
-    register,
-    logout,
-    requireAuth
+    logout
   }
 })
