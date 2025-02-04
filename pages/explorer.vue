@@ -1,4 +1,5 @@
 <template>
+   <div class="card p-8" style="min-width: 600px; margin: 0 auto;"   > 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex flex-col md:flex-row gap-6">
       <!-- Filtres -->
@@ -75,6 +76,9 @@
         </div>
       </div>
     </div>
+  </div>
+   
+
   </div>
 </template>
 

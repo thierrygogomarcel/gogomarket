@@ -11,7 +11,7 @@
       <TheHeader class="fixed top-0 left-0 right-0 z-40" />
       
       <!-- Main content with padding for fixed header -->
-      <div class="content pt-16">
+      <div class="content pt-5">
         <NuxtPage />
       </div>
     </div>
@@ -28,6 +28,7 @@ const showPresentation = ref(true)
 const hasSeenPresentation = () => {
   return localStorage.getItem('hasSeenPresentation')
 }
+
 
 const closePresentation = () => {
   showPresentation.value = false

@@ -1,4 +1,5 @@
 <template>
+   <div class="card p-8" style="min-width: 600px; margin: 0 auto;"   >
   <div class="container mx-auto px-4 py-8">
     <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
       <h1 class="text-3xl font-bold text-green-600 mb-6 text-center">Publier une offre</h1>
@@ -104,6 +105,7 @@
       </form>
     </div>
   </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -134,17 +136,21 @@ const products = ref<Product[]>([]);
 // Fetch products on component mount
 const fetchProducts = async (selectedCategory?: string) => {
   try {
+    const queryParams = new URLSearchParams();
+    queryParams.append('limit', '100');
+    queryParams.append('page', '1');
+    
+    if (selectedCategory) {
+      queryParams.append('category', selectedCategory);
+    }
+
     const response = await $fetch<{
       products: Product[];
       total: number;
       page: number;
       totalPages: number;
-    }>('/api/products/list', {
+    }>(`/api/products/list?${queryParams.toString()}`, {
       method: 'GET',
-      query: { 
-        limit: 100,  // Fetch all products
-        ...(selectedCategory ? { category: selectedCategory } : {})
-      }
     });
     
     console.log('Fetched products:', response.products);
@@ -202,14 +208,25 @@ const handleSubmit = async () => {
     const response = await $fetch('/api/offers/publish', {
       method: 'POST',
       body: offerData,
-      headers: { Authorization: `Bearer ${useAuth().state.token}` },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${useAuth().state.token}` 
+      },
     });
 
     toast.success("Offre publiée avec succès !");
     useRouter().push("/mes-offres");
   } catch (error: any) {
     console.error("Erreur lors de la publication :", error);
-    toast.error(error.message || "Erreur lors de la publication de l'offre");
+    
+    // More specific error handling
+    if (error.data && error.data.message) {
+      toast.error(error.data.message);
+    } else if (error.message) {
+      toast.error(error.message);
+    } else {
+      toast.error("Erreur lors de la publication de l'offre");
+    }
   } finally {
     loading.value = false;
   }

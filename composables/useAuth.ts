@@ -107,11 +107,20 @@ export const useAuth = defineStore('auth', () => {
     router.push('/')
   }
 
+  function requireAuth() {
+    if (!isAuthenticated.value) {
+      router.push('/connexion')
+      return false
+    }
+    return true
+  }
+
   return {
     state,
     isAuthenticated,
     login,
     register,
     logout,
+    requireAuth
   }
 })

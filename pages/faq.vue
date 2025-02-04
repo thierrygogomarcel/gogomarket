@@ -4,11 +4,13 @@
     
     <div class="space-y-6">
       <div v-for="(item, index) in faqItems" :key="index" class="bg-white shadow rounded-lg p-6">
+        <div class="card p-8" style="min-width: 600px; margin: 0 auto;"   >
         <h2 class="text-lg font-medium text-gray-900 mb-2">{{ item.question }}</h2>
         <p class="text-gray-600">{{ item.answer }}</p>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup lang="ts">

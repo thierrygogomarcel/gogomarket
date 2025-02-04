@@ -1,4 +1,5 @@
 <template>
+   <div class="card p-8" style="min-width: 600px; margin: 0 auto;"   > 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-6">
         <h1 class="text-2xl font-bold text-gray-900 mb-6">Mes Favoris</h1>
@@ -53,6 +54,7 @@
         </div>
       </div>
     </div>
+  </div>
   </template>
   
   <script setup lang="ts">

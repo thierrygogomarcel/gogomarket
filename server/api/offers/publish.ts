@@ -1,8 +1,9 @@
 import { H3Event } from "h3";
 import { z } from "zod";
+import mongoose from 'mongoose';
 import { getUserFromToken } from "~/server/utils/auth";
 import { Offer } from "~/server/models/Offer";
-import { Product } from '../../models/product';
+import { Product } from '~/server/models/product';
 import { logger } from "~/server/utils/logger";
 
 // Input validation schema
@@ -19,12 +20,14 @@ export default defineEventHandler(async (event: H3Event) => {
       logger.warn("Unauthorized offer publication attempt");
       throw createError({ 
         statusCode: 401, 
-        statusMessage: "Vous devez être connecté pour publier une offre" 
+        message: "Vous devez être connecté pour publier une offre" 
       });
     }
 
     // Parse and validate input
     const body = await readBody(event);
+    console.log('Received offer data:', body); // Debug logging
+
     const validationResult = PublishOfferSchema.safeParse(body);
 
     if (!validationResult.success) {
@@ -34,7 +37,7 @@ export default defineEventHandler(async (event: H3Event) => {
       });
       throw createError({ 
         statusCode: 400, 
-        statusMessage: validationResult.error.errors[0].message 
+        message: validationResult.error.errors[0].message 
       });
     }
 
@@ -50,13 +53,13 @@ export default defineEventHandler(async (event: H3Event) => {
     });
 
     if (!product) {
-      logger.warn("Attempt to create offer for non-existent or unauthorized product", { 
+      logger.warn(`Product not found or not owned by user`, { 
         productId, 
         userId: user._id 
       });
       throw createError({ 
         statusCode: 404, 
-        statusMessage: "Produit non trouvé ou non autorisé" 
+        message: "Produit non trouvé ou non autorisé" 
       });
     }
 
@@ -69,13 +72,13 @@ export default defineEventHandler(async (event: H3Event) => {
       });
       throw createError({ 
         statusCode: 409, 
-        statusMessage: "Une offre existe déjà pour ce produit" 
+        message: "Une offre existe déjà pour ce produit" 
       });
     }
 
     // Create new offer
     const newOffer = new Offer({
-      userId: user.userId,  // Use userId from token instead of _id
+      userId: user.userId,  
       productId: productObjectId,
       message,
       status: "publié",
@@ -84,7 +87,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
     await newOffer.save();
 
-    logger.info("Offer published successfully", { 
+    logger.info('Offer published successfully', { 
       offerId: newOffer._id, 
       productId, 
       userId: user._id 
@@ -97,14 +100,14 @@ export default defineEventHandler(async (event: H3Event) => {
     };
 
   } catch (error: any) {
-    logger.error("Offer publication error", { 
+    logger.error('Error in offer publication', { 
       error: error.message, 
       stack: error.stack 
     });
 
-    return createError({
+    throw createError({
       statusCode: error.statusCode || 500,
-      statusMessage: error.statusMessage || "Erreur interne du serveur"
+      message: error.message || 'Erreur lors de la publication de l\'offre'
     });
   }
 });

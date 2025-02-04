@@ -1,4 +1,6 @@
 <template>
+  <div class="card p-8" style="min-width: 600px; margin: 0 auto;"   > 
+
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <h1 class="text-3xl font-bold text-gray-900 mb-8">Contactez-nous</h1>
     
@@ -65,6 +67,8 @@
         </p>
       </div>
     </div>
+  </div>
+
   </div>
 </template>
 
