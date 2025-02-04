@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useToast } from '~/composables/useToast'
 
 export interface User {
+  profilePicture: any
   id: string
   email: string
   fullName: string

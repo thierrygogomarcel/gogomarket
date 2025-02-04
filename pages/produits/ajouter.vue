@@ -127,6 +127,21 @@
             </div>
           </div>
         </div>
+  <!-- Preview des images -->
+  <div v-if="imageUrls.length > 0" class="mt-4 grid grid-cols-3 gap-4">
+            <div v-for="(url, index) in imageUrls" :key="index" class="relative">
+              <img :src="url" class="h-24 w-24 object-cover rounded-lg" />
+              <button
+                type="button"
+                @click="removeImage(index)"
+                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+              >
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div> 
 
         <!-- Message d'erreur -->
         <div v-if="error" class="rounded-md bg-red-50 p-4">
@@ -170,25 +185,47 @@ import { useToast } from '~/composables/useToast'
 const router = useRouter()
 const toast = useToast()
 
+const imageUrls = ref<string[]>([])
+const imageFiles = ref<File[]>([])  
+
+
 const categories = ['Légumes', 'Fruits', 'Céréales', 'Tubercules']
+const locations = ['Abidjan', 'Bamako', 'Ouagadougou', 'Accra']
 
 const form = ref({
   name: '',
   category: categories[0],
   description: '',
   price: 0,
-  stock: 0
+  stock: 0,
+  images: [] as File[]
 })
 
 const loading = ref(false)
 const error = ref<string | null>(null)
 const files = ref<File[]>([])
 
+ 
+
 const handleFileUpload = (event: Event) => {
   const input = event.target as HTMLInputElement
   if (input.files) {
-    files.value = Array.from(input.files)
+    const newFiles = Array.from(input.files)
+    form.value.images = [...form.value.images, ...newFiles]
+    
+    // Create preview URLs
+    newFiles.forEach(file => {
+      const url = URL.createObjectURL(file)
+      imageUrls.value.push(url)
+    })
   }
+}
+
+
+const removeImage = (index: number) => {
+  URL.revokeObjectURL(imageUrls.value[index])
+  imageUrls.value.splice(index, 1)
+  form.value.images.splice(index, 1)
 }
 
 const handleSubmit = async () => {
@@ -209,7 +246,7 @@ const handleSubmit = async () => {
     await new Promise(resolve => setTimeout(resolve, 1000)) // Simulation d'appel API
 
     toast.success('Produit ajouté avec succès')
-    router.push('/produits')
+    router.push('/mes-produits')
   } catch (err: any) {
     error.value = err.message
     toast.error('Erreur lors de l\'ajout du produit')

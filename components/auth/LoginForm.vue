@@ -13,6 +13,8 @@
 </template>
 
 <script>
+const showPassword = ref(false)
+
 export default {
   name: 'LoginForm',
   data() {

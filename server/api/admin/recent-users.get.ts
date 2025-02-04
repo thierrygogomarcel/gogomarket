@@ -1,13 +1,12 @@
 import { requireAuth } from '../../utils/auth'
 import { User } from '../../models/user'
-import { Product } from '../../models/product'
-import { Transaction } from '../../models/transaction'
 import { createError } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {
     const user = await requireAuth(event)
     
+    // Vérifier que l'utilisateur est un admin
     if (user.role !== 'admin') {
       throw createError({
         statusCode: 403,
@@ -15,20 +14,12 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const [totalUsers, totalProducts, transactions] = await Promise.all([
-      User.countDocuments(),
-      Product.countDocuments(),
-      Transaction.find({ status: 'completed' })
-    ])
+    const recentUsers = await User.find()
+      .select('-password')
+      .sort({ createdAt: -1 })
+      .limit(5)
 
-    const totalRevenue = transactions.reduce((sum, t) => sum + (t.amount || 0), 0)
-
-    return {
-      totalUsers,
-      totalProducts,
-      totalTransactions: transactions.length,
-      totalRevenue
-    }
+    return recentUsers
   } catch (error: any) {
     throw createError({
       statusCode: error.statusCode || 500,

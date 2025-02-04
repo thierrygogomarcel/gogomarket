@@ -2,13 +2,13 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { createError, H3Event } from 'h3'
 
-// Fonction pour hasher un mot de passe
+// Function to hash password
 export const hashPassword = async (password: string): Promise<string> => {
   const salt = await bcrypt.genSalt(10)
   return bcrypt.hash(password, salt)
 }
 
-// Fonction pour comparer un mot de passe
+// Function to compare password
 export const comparePassword = async (
   password: string,
   hashedPassword: string
@@ -16,74 +16,49 @@ export const comparePassword = async (
   return bcrypt.compare(password, hashedPassword)
 }
 
-// Fonction pour générer un token JWT
-export const generateToken = (payload: object, config: any): string => {
-  return jwt.sign(payload, config.jwtSecret, {
-    expiresIn: config.jwtExpiresIn
-  })
-}
-
-// Fonction pour vérifier un token JWT
-export const verifyToken = (token: string, config: any) => {
-  try {
-    return jwt.verify(token, config.jwtSecret)
-  } catch (error) {
-    return null
-  }
-}
-
-// Define an interface for JWT payload
+// JWT payload interface
 export interface JwtPayloadWithUserType {
-  role: string
-  userType: 'producer' | 'consumer' | 'admin'
   userId: string
-  // Add other properties as needed
+  email: string
+  role: string
+  userType: 'producer' | 'buyer' | 'transport' | 'admin'
 }
 
-// Fonction pour extraire l'utilisateur à partir d'un token
-export const getUserFromToken = async (event: H3Event): Promise<JwtPayloadWithUserType | null> => {
+// Function to verify token
+export const verifyToken = (token: string, config: any): JwtPayloadWithUserType => {
   try {
-    const token = event.headers.get('authorization')?.replace('Bearer ', '')
-    
-    if (!token) {
-      return null
-    }
-
-    const config = useRuntimeConfig(event)
-    const decoded = verifyToken(token, config)
-
-    if (!decoded) {
-      return null
-    }
-
-    return decoded as JwtPayloadWithUserType
+    const decoded = jwt.verify(token, config.jwtSecret) as JwtPayloadWithUserType
+    return decoded
   } catch (error) {
+    throw createError({
+      statusCode: 401,
+      message: 'Token invalide ou expiré'
+    })
+  }
+}
+
+// Function to get user from token
+export const getUserFromToken = async (event: H3Event): Promise<JwtPayloadWithUserType | null> => {
+  const authHeader = event.node.req.headers.authorization
+ 
+  if (!authHeader?.startsWith('Bearer ')) {
     return null
   }
-}
 
-// Middleware d'authentification
-export const requireAuth = async (event: H3Event): Promise<JwtPayloadWithUserType> => {
-  const token = event.headers.get('authorization')?.replace('Bearer ', '')
-  
-  if (!token) {
-    throw createError({
-      statusCode: 401,
-      message: 'Token manquant'
-    })
-  }
-
-  // Récupérer la configuration runtime dans la fonction
+  const token = authHeader.replace('Bearer ', '')
   const config = useRuntimeConfig()
+  console.log('[AUTH LOG] server utils\auth.ts loaded with authHeader:', token);
+  return verifyToken(token, config)
+}
   
-  const decoded = verifyToken(token, config)
-  if (!decoded || typeof decoded === 'string') {
+// Auth middleware
+export const requireAuth = async (event: H3Event): Promise<JwtPayloadWithUserType> => {
+  const user = await getUserFromToken(event)
+  if (!user) {
     throw createError({
       statusCode: 401,
-      message: 'Token invalide'
+      message: 'Token manquant ou invalide'
     })
   }
-
-  // Type assertion to ensure decoded has userType
-  return decoded as JwtPayloadWithUserType
+  return user
 }

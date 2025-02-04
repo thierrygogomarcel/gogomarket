@@ -18,3 +18,10 @@ export interface UserStats {
   lastOrderDate?: string
   // Add any other user statistics you want to track
 }
+
+export interface DashboardStats {
+  totalUsers: number;
+  totalProducts: number;
+  totalTransactions: number;
+  totalRevenue: number;
+}

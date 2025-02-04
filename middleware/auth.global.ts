@@ -5,7 +5,8 @@ import { useToast } from '~/composables/useToast'
 export default defineNuxtRouteMiddleware((to) => {
   const auth = useAuth()
   const toast = useToast()
-  
+ 
+
   // Routes publiques
   const publicRoutes = ['/',  '/inscription', '/explorer', '/admin/wallet', '/admin/transactions']
   if (publicRoutes.includes(to.path)) {

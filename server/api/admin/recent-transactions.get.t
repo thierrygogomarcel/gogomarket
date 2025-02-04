@@ -1,6 +1,4 @@
 import { requireAuth } from '../../utils/auth'
-import { User } from '../../models/user'
-import { Product } from '../../models/product'
 import { Transaction } from '../../models/transaction'
 import { createError } from 'h3'
 
@@ -15,20 +13,12 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const [totalUsers, totalProducts, transactions] = await Promise.all([
-      User.countDocuments(),
-      Product.countDocuments(),
-      Transaction.find({ status: 'completed' })
-    ])
+    const recentTransactions = await Transaction.find()
+      .populate('buyerId', 'fullName')
+      .sort({ createdAt: -1 })
+      .limit(5)
 
-    const totalRevenue = transactions.reduce((sum, t) => sum + (t.amount || 0), 0)
-
-    return {
-      totalUsers,
-      totalProducts,
-      totalTransactions: transactions.length,
-      totalRevenue
-    }
+    return recentTransactions
   } catch (error: any) {
     throw createError({
       statusCode: error.statusCode || 500,

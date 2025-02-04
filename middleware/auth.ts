@@ -26,6 +26,8 @@ export default defineNuxtRouteMiddleware((to) => {
     try {
       // Décoder le JWT pour récupérer les infos utilisateur
       const user = jwtDecode(token);
+      
+
       return user;
     } catch (error) {
       console.error('Invalid token:', error);
@@ -35,7 +37,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
   // Récupérer l'utilisateur authentifié
   const user = getAuthenticatedUser();
-
+  console.log('[AUTH LOG] middleware\auth.ts loaded with authHeader:', user);  
   // Liste des routes protégées
   const protectedRoutes = ['/dashboard', '/publier'];
 

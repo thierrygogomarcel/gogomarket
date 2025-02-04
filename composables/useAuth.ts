@@ -30,6 +30,7 @@ export const useAuth = defineStore('auth', () => {
   
   const isAuthenticated = computed(() => !!state.value.token && !!state.value.user)
   const router = useRouter()
+  console.log('[AUTH LOG] auth.ts loaded');
 
   async function login(email: string, password: string) {
     try {
@@ -55,7 +56,8 @@ export const useAuth = defineStore('auth', () => {
       // Redirection based on user role
       const redirectPath = getRedirectPath(response.user)
       await router.push(redirectPath)
-  
+      console.log('[AUTH LOG] middleware\auth.ts loaded');
+
       return response
     } catch (error: any) {
       state.value.token = null

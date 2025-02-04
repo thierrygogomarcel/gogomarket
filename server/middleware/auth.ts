@@ -31,6 +31,7 @@ export default eventHandler(async (event) => {
 
     const token = authHeader.replace('Bearer ', '')
     const decoded = jwt.verify(token, config.jwtSecret)
+    console.log('[AUTH LOG] server\middleware\auth.ts loaded with:', token);  
 
     // Add user info to event context
     event.context.auth = decoded
@@ -43,3 +44,4 @@ export default eventHandler(async (event) => {
     })
   }
 })
+

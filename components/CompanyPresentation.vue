@@ -14,17 +14,17 @@
 
       <div class="p-6">
         <div class="flex items-center mb-6">
-          <img 
-            src="/profile.png"
-            alt="Photo professionnelle" 
-            class="h-20 w-20 rounded-full object-cover border-2 border-primary-500"
-          />
-          <div class="ml-4">
-            <h2 class="text-2xl font-bold text-gray-900">Bienvenue chez GogoSoft & Co</h2>
-            <p class="text-sm text-gray-500 italic">Innovation et qualité au service de l'Afrique qui marche vers la modernité</p>
-          </div>
-        </div>
-
+  <img 
+    src="/images/profile.png" 
+    alt="Photo professionnelle" 
+    class="h-20 w-20 rounded-full object-cover border-2 border-primary-500"
+    onerror="this.src='https://img.freepik.com/free-photo/african-american-business-man-working-laptop-computer-office_1303-15719.jpg'"
+  />
+  <div class="ml-4">
+    <h2 class="text-2xl font-bold text-gray-900">Bienvenue chez GogoSoft & Co</h2>
+    <p class="text-sm text-gray-500 italic">Innovation et qualité au service de l'Afrique qui marche vers la modernité</p>
+  </div>
+</div>
         <div class="flex space-x-6 mb-6">
           <a href="tel:+2250758966156" class="flex items-center text-primary-600 hover:text-primary-700">
             <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
       { 
         userId: user._id,
         email: user.email,
-        role: user.role || 'user', // Valeur par défaut
+        role: user.role || 'user',
         userType: user.userType
       },
       jwtSecret,
@@ -64,7 +64,7 @@ export default defineEventHandler(async (event) => {
         email: user.email,
         fullName: user.fullName,
         userType: user.userType,
-        role: user.role || 'user', // Valeur par défaut
+        role: user.role || 'user',
         status: user.status,
         avatarUrl: user.avatarUrl
       }

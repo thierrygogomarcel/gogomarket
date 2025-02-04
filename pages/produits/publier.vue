@@ -192,7 +192,7 @@ import { ref, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
-import auth from '~/middleware/auth'
+import { useAuth } from '~/composables/useAuth'
 
 // Define the form type
 interface ProductForm {
@@ -216,14 +216,15 @@ const form = ref<ProductForm>({
   images: []
 })
 
-const categories = ['Électronique', 'Vêtements', 'Mobilier', 'Autres']
-const locations = ['Dakar', 'Thiès', 'Saint-Louis', 'Autres']
+const categories = ['Légumes', 'Fruits', 'Céréales', 'Tubercules']
+const locations = ['Abidjan', 'Bamako', 'Ouagadougou', 'Accra']
 
 const imageUrls = ref<string[]>([])
 const imageFiles = ref<File[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 const router = useRouter()
+const { state } = useAuth()
 
 const handleFileUpload = (event: Event) => {
   const input = event.target as HTMLInputElement
@@ -262,7 +263,7 @@ const handleSubmit = async () => {
       formData.append('images', file)
     })
 
-    const token = await auth.getToken()
+    const token = state.token
     const response = await $fetch('/api/products/add', {
       method: 'POST',
       body: formData,

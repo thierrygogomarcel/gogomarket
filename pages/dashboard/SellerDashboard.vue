@@ -73,7 +73,7 @@
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Actions rapides</h2>
           <div class="space-y-4">
             <NuxtLink
-              to="/publier"
+              to="/produits/publier"
               class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100"
             >
               <span class="font-medium text-gray-700">Publier un produit</span>

@@ -6,7 +6,7 @@
           <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-900">Mes Produits</h1>
             <NuxtLink
-              to="/publier"
+              to="/produits/ajouter"
               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
             >
               <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@
               to="/publier"
               class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 bg-primary-50 hover:bg-primary-100"
             >
-              Publier votre premier produit
+              Ajouter votre premier produit
             </NuxtLink>
           </div>
   
@@ -41,11 +41,12 @@
               :key="product._id"
               class="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
             >
-              <img
-                :src="product.images[0] || 'https://via.placeholder.com/300x200'"
-                :alt="product.name"
-                class="w-full h-48 object-cover"
-              />
+            <img
+  :src="(product.images && product.images.length > 0) ? product.images[0] : 'https://via.placeholder.com/300x200'"
+  :alt="product.name || 'Image indisponible'"
+  class="w-full h-48 object-cover"
+/>
+
               <div class="p-4">
                 <h3 class="text-lg font-medium text-gray-900">{{ product.name }}</h3>
                 <p class="mt-1 text-sm text-gray-500">{{ product.description }}</p>
@@ -76,7 +77,7 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, watch } from 'vue'
   import { useToast } from '~/composables/useToast'
   import { useAuth } from '~/composables/useAuth'
 import { navigateTo } from 'nuxt/app';
@@ -117,6 +118,10 @@ import { navigateTo } from 'nuxt/app';
     }
   }
   
+watch(products, () => {
+  console.log("Produits chargés :", products.value)
+}, { deep: true })
+  
   const editProduct = (productId: string) => {
     navigateTo(`/produits/${productId}/edit`)
   }
@@ -138,6 +143,11 @@ import { navigateTo } from 'nuxt/app';
       toast.error(errorMessage || 'Une erreur est survenue')
     }
   }
+
+  
+watch(products, () => {
+  console.log("Produits chargés :", products.value)
+}, { deep: true })
   
   onMounted(() => {
     loadProducts()
