@@ -1,17 +1,23 @@
-import mongoose from 'mongoose'
+import mongoose, { Connection } from 'mongoose'
 import { logger } from './logger'
 
-const MONGODB_URI = process.env.MONGODB_URI
+// Extend the global type to include mongoose property
+declare global {
+  var mongoose: { 
+    conn: null | Connection, 
+    promise: null | Promise<mongoose.Mongoose> 
+  } | undefined
+}
+
+const MONGODB_URI = process.env.MONGODB_URI || ''
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable')
+  throw new Error('MONGODB_URI environment variable is not set')
 }
 
-let cached = global.mongoose
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
-}
+// Ensure cached is always initialized
+global.mongoose = global.mongoose || { conn: null, promise: null }
+const cached = global.mongoose
 
 export async function connectDB() {
   if (cached.conn) {
@@ -26,9 +32,9 @@ export async function connectDB() {
     }
 
     cached.promise = mongoose.connect(MONGODB_URI, opts)
-      .then(mongoose => {
+      .then((mongooseModule) => {
         logger.info('MongoDB connected successfully')
-        return mongoose
+        return mongooseModule
       })
       .catch(error => {
         logger.error('MongoDB connection error:', error)
@@ -37,7 +43,8 @@ export async function connectDB() {
   }
 
   try {
-    cached.conn = await cached.promise
+    const mongooseInstance = await cached.promise
+    cached.conn = mongooseInstance.connection
   } catch (e) {
     cached.promise = null
     throw e
@@ -48,7 +55,7 @@ export async function connectDB() {
 
 export async function disconnectDB() {
   if (cached.conn) {
-    await mongoose.disconnect()
+    await cached.conn.close()
     cached.conn = null
     cached.promise = null
   }

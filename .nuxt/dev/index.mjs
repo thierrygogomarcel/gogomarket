@@ -3,8 +3,9 @@ import { Server } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parentPort, threadId } from 'node:worker_threads';
-import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, eventHandler, createError, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, setHeaders, sendRedirect, proxyRequest, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, setResponseHeaders, getRouterParam, getQuery as getQuery$1, readBody, readMultipartFormData, getResponseStatusText } from 'file://C:/Users/thier/Documents/agroproject/node_modules/h3/dist/index.mjs';
-import jwt from 'file://C:/Users/thier/Documents/agroproject/node_modules/jsonwebtoken/index.js';
+import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, defineEventHandler, getHeader, createError, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, setResponseHeaders, getRouterParam, getQuery as getQuery$1, readBody, readMultipartFormData, getResponseStatusText } from 'file://C:/Users/thier/Documents/agroproject/node_modules/h3/dist/index.mjs';
+import * as jwt from 'file://C:/Users/thier/Documents/agroproject/node_modules/jsonwebtoken/index.js';
+import jwt__default from 'file://C:/Users/thier/Documents/agroproject/node_modules/jsonwebtoken/index.js';
 import bcrypt from 'file://C:/Users/thier/Documents/agroproject/node_modules/bcryptjs/index.js';
 import mongoose from 'file://C:/Users/thier/Documents/agroproject/node_modules/mongoose/index.js';
 import { z } from 'file://C:/Users/thier/Documents/agroproject/node_modules/zod/lib/index.mjs';
@@ -308,14 +309,12 @@ const logger = winston.createLogger({
   ]
 });
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || "";
 if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable");
+  throw new Error("MONGODB_URI environment variable is not set");
 }
-let cached = global.mongoose;
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
+globalThis.mongoose = global.mongoose || { conn: null, promise: null };
+const cached = global.mongoose;
 async function connectDB() {
   if (cached.conn) {
     return cached.conn;
@@ -327,16 +326,17 @@ async function connectDB() {
       serverSelectionTimeoutMS: 5e3,
       socketTimeoutMS: 45e3
     };
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose2) => {
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseModule) => {
       logger.info("MongoDB connected successfully");
-      return mongoose2;
+      return mongooseModule;
     }).catch((error) => {
       logger.error("MongoDB connection error:", error);
       throw error;
     });
   }
   try {
-    cached.conn = await cached.promise;
+    const mongooseInstance = await cached.promise;
+    cached.conn = mongooseInstance.connection;
   } catch (e) {
     cached.promise = null;
     throw e;
@@ -361,158 +361,21 @@ _IeraNIYa5f,
 _GSeDLHACSY
 ];
 
-const inlineAppConfig = {
-  "nuxt": {}
-};
-
-
-
-const appConfig = defuFn(inlineAppConfig);
-
-function getEnv(key, opts) {
-  const envKey = snakeCase(key).toUpperCase();
-  return destr(
-    process.env[opts.prefix + envKey] ?? process.env[opts.altPrefix + envKey]
-  );
-}
-function _isObject(input) {
-  return typeof input === "object" && !Array.isArray(input);
-}
-function applyEnv(obj, opts, parentKey = "") {
-  for (const key in obj) {
-    const subKey = parentKey ? `${parentKey}_${key}` : key;
-    const envValue = getEnv(subKey, opts);
-    if (_isObject(obj[key])) {
-      if (_isObject(envValue)) {
-        obj[key] = { ...obj[key], ...envValue };
-        applyEnv(obj[key], opts, subKey);
-      } else if (envValue === undefined) {
-        applyEnv(obj[key], opts, subKey);
-      } else {
-        obj[key] = envValue ?? obj[key];
-      }
-    } else {
-      obj[key] = envValue ?? obj[key];
-    }
-    if (opts.envExpansion && typeof obj[key] === "string") {
-      obj[key] = _expandFromEnv(obj[key]);
-    }
+const _atjrSP = defineEventHandler(async (event) => {
+  var _a;
+  const token = (_a = getHeader(event, "Authorization")) == null ? undefined : _a.split(" ")[1];
+  if (!token) {
+    throw createError({ statusCode: 401, message: "Token manquant" });
   }
-  return obj;
-}
-const envExpandRx = /{{(.*?)}}/g;
-function _expandFromEnv(value) {
-  return value.replace(envExpandRx, (match, key) => {
-    return process.env[key] || match;
-  });
-}
-
-const _inlineRuntimeConfig = {
-  "app": {
-    "baseURL": "/",
-    "buildId": "dev",
-    "buildAssetsDir": "/_nuxt/",
-    "cdnURL": ""
-  },
-  "nitro": {
-    "envPrefix": "NUXT_",
-    "routeRules": {
-      "/__nuxt_error": {
-        "cache": false
-      },
-      "/_nuxt/builds/meta/**": {
-        "headers": {
-          "cache-control": "public, max-age=31536000, immutable"
-        }
-      },
-      "/_nuxt/builds/**": {
-        "headers": {
-          "cache-control": "public, max-age=1, immutable"
-        }
-      }
-    }
-  },
-  "public": {
-    "apiBase": "http://localhost:3000"
-  },
-  "jwtSecret": "ed68fc31d9acf97131a42a95987c9dddbb390f5befdf646c324c8f86f443b0f7",
-  "jwtExpiresIn": "7d",
-  "mongodbUri": "mongodb+srv://thierry_gogo:M2024Mano@cluster0.rf9zo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-};
-const envOptions = {
-  prefix: "NITRO_",
-  altPrefix: _inlineRuntimeConfig.nitro.envPrefix ?? process.env.NITRO_ENV_PREFIX ?? "_",
-  envExpansion: _inlineRuntimeConfig.nitro.envExpansion ?? process.env.NITRO_ENV_EXPANSION ?? false
-};
-const _sharedRuntimeConfig = _deepFreeze(
-  applyEnv(klona(_inlineRuntimeConfig), envOptions)
-);
-function useRuntimeConfig(event) {
-  if (!event) {
-    return _sharedRuntimeConfig;
-  }
-  if (event.context.nitro.runtimeConfig) {
-    return event.context.nitro.runtimeConfig;
-  }
-  const runtimeConfig = klona(_inlineRuntimeConfig);
-  applyEnv(runtimeConfig, envOptions);
-  event.context.nitro.runtimeConfig = runtimeConfig;
-  return runtimeConfig;
-}
-_deepFreeze(klona(appConfig));
-function _deepFreeze(object) {
-  const propNames = Object.getOwnPropertyNames(object);
-  for (const name of propNames) {
-    const value = object[name];
-    if (value && typeof value === "object") {
-      _deepFreeze(value);
-    }
-  }
-  return Object.freeze(object);
-}
-new Proxy(/* @__PURE__ */ Object.create(null), {
-  get: (_, prop) => {
-    console.warn(
-      "Please use `useRuntimeConfig()` instead of accessing config directly."
-    );
-    const runtimeConfig = useRuntimeConfig();
-    if (prop in runtimeConfig) {
-      return runtimeConfig[prop];
-    }
-    return undefined;
-  }
-});
-
-const _atjrSP = eventHandler(async (event) => {
-  const publicRoutes = [
-    "/",
-    "/api/auth/login",
-    "/api/auth/register",
-    "/connexion",
-    "/inscription",
-    "/explorer"
-  ];
-  if (publicRoutes.some((route) => event.path.startsWith(route))) {
-    return;
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw createError({ statusCode: 500, message: "JWT Secret is not configured" });
   }
   try {
-    const config = useRuntimeConfig();
-    const authHeader = getRequestHeader(event, "Authorization");
-    if (!(authHeader == null ? void 0 : authHeader.startsWith("Bearer "))) {
-      throw createError({
-        statusCode: 401,
-        message: "No token provided"
-      });
-    }
-    const token = authHeader.replace("Bearer ", "");
-    const decoded = jwt.verify(token, config.jwtSecret);
-    event.context.auth = decoded;
-    return decoded;
+    const decoded = jwt.verify(token, secret);
+    event.context.user = decoded;
   } catch (error) {
-    throw createError({
-      statusCode: 401,
-      message: error.message || "Invalid or expired token"
-    });
+    throw createError({ statusCode: 401, message: "Token invalide" });
   }
 });
 
@@ -956,6 +819,128 @@ function cloneWithProxy(obj, overrides) {
 }
 const cachedEventHandler = defineCachedEventHandler;
 
+const inlineAppConfig = {
+  "nuxt": {}
+};
+
+
+
+const appConfig = defuFn(inlineAppConfig);
+
+function getEnv(key, opts) {
+  const envKey = snakeCase(key).toUpperCase();
+  return destr(
+    process.env[opts.prefix + envKey] ?? process.env[opts.altPrefix + envKey]
+  );
+}
+function _isObject(input) {
+  return typeof input === "object" && !Array.isArray(input);
+}
+function applyEnv(obj, opts, parentKey = "") {
+  for (const key in obj) {
+    const subKey = parentKey ? `${parentKey}_${key}` : key;
+    const envValue = getEnv(subKey, opts);
+    if (_isObject(obj[key])) {
+      if (_isObject(envValue)) {
+        obj[key] = { ...obj[key], ...envValue };
+        applyEnv(obj[key], opts, subKey);
+      } else if (envValue === undefined) {
+        applyEnv(obj[key], opts, subKey);
+      } else {
+        obj[key] = envValue ?? obj[key];
+      }
+    } else {
+      obj[key] = envValue ?? obj[key];
+    }
+    if (opts.envExpansion && typeof obj[key] === "string") {
+      obj[key] = _expandFromEnv(obj[key]);
+    }
+  }
+  return obj;
+}
+const envExpandRx = /{{(.*?)}}/g;
+function _expandFromEnv(value) {
+  return value.replace(envExpandRx, (match, key) => {
+    return process.env[key] || match;
+  });
+}
+
+const _inlineRuntimeConfig = {
+  "app": {
+    "baseURL": "/",
+    "buildId": "dev",
+    "buildAssetsDir": "/_nuxt/",
+    "cdnURL": ""
+  },
+  "nitro": {
+    "envPrefix": "NUXT_",
+    "routeRules": {
+      "/__nuxt_error": {
+        "cache": false
+      },
+      "/_nuxt/builds/meta/**": {
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      },
+      "/_nuxt/builds/**": {
+        "headers": {
+          "cache-control": "public, max-age=1, immutable"
+        }
+      }
+    }
+  },
+  "public": {
+    "apiBase": "http://localhost:3000"
+  },
+  "jwtSecret": "ed68fc31d9acf97131a42a95987c9dddbb390f5befdf646c324c8f86f443b0f7",
+  "jwtExpiresIn": "7d",
+  "mongodbUri": "mongodb+srv://thierry_gogo:M2024Mano@cluster0.rf9zo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+};
+const envOptions = {
+  prefix: "NITRO_",
+  altPrefix: _inlineRuntimeConfig.nitro.envPrefix ?? process.env.NITRO_ENV_PREFIX ?? "_",
+  envExpansion: _inlineRuntimeConfig.nitro.envExpansion ?? process.env.NITRO_ENV_EXPANSION ?? false
+};
+const _sharedRuntimeConfig = _deepFreeze(
+  applyEnv(klona(_inlineRuntimeConfig), envOptions)
+);
+function useRuntimeConfig(event) {
+  if (!event) {
+    return _sharedRuntimeConfig;
+  }
+  if (event.context.nitro.runtimeConfig) {
+    return event.context.nitro.runtimeConfig;
+  }
+  const runtimeConfig = klona(_inlineRuntimeConfig);
+  applyEnv(runtimeConfig, envOptions);
+  event.context.nitro.runtimeConfig = runtimeConfig;
+  return runtimeConfig;
+}
+_deepFreeze(klona(appConfig));
+function _deepFreeze(object) {
+  const propNames = Object.getOwnPropertyNames(object);
+  for (const name of propNames) {
+    const value = object[name];
+    if (value && typeof value === "object") {
+      _deepFreeze(value);
+    }
+  }
+  return Object.freeze(object);
+}
+new Proxy(/* @__PURE__ */ Object.create(null), {
+  get: (_, prop) => {
+    console.warn(
+      "Please use `useRuntimeConfig()` instead of accessing config directly."
+    );
+    const runtimeConfig = useRuntimeConfig();
+    if (prop in runtimeConfig) {
+      return runtimeConfig[prop];
+    }
+    return undefined;
+  }
+});
+
 const config = useRuntimeConfig();
 const _routeRulesMatcher = toRouteMatcher(
   createRouter({ routes: config.nitro.routeRules })
@@ -1317,7 +1302,7 @@ const hashPassword = async (password) => {
 };
 const verifyToken$1 = (token, config) => {
   try {
-    const decoded = jwt.verify(token, config.jwtSecret);
+    const decoded = jwt__default.verify(token, config.jwtSecret);
     return decoded;
   } catch (error) {
     throw createError({
@@ -1622,8 +1607,11 @@ const sponsored_get$1 = /*#__PURE__*/Object.freeze({
 const login_post = defineEventHandler(async (event) => {
   try {
     await connectDB();
+    logger.info("Connexion \xE0 la base de donn\xE9es r\xE9ussie");
     const { email, password } = await readBody(event);
+    logger.info(`Tentative de connexion pour l'email: ${email}`);
     if (!email || !password) {
+      logger.warn("Email ou mot de passe manquant");
       throw createError({
         statusCode: 400,
         message: "Email et mot de passe requis"
@@ -1631,6 +1619,7 @@ const login_post = defineEventHandler(async (event) => {
     }
     const user = await User$1.findOne({ email }).select("+password");
     if (!user) {
+      logger.warn(`Utilisateur non trouv\xE9 pour l'email: ${email}`);
       throw createError({
         statusCode: 401,
         message: "Email ou mot de passe incorrect"
@@ -1638,12 +1627,14 @@ const login_post = defineEventHandler(async (event) => {
     }
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
+      logger.warn("Mot de passe incorrect");
       throw createError({
         statusCode: 401,
         message: "Email ou mot de passe incorrect"
       });
     }
     if (user.status !== "active") {
+      logger.warn(`Compte inactif pour l'utilisateur: ${user.email}`);
       throw createError({
         statusCode: 403,
         message: "Votre compte est inactif"
@@ -1651,7 +1642,7 @@ const login_post = defineEventHandler(async (event) => {
     }
     const config = useRuntimeConfig();
     if (!config.jwtSecret) {
-      logger.error("JWT_SECRET is not defined");
+      logger.error("JWT_SECRET non d\xE9fini");
       throw createError({
         statusCode: 500,
         message: "Erreur de configuration"
@@ -1667,6 +1658,7 @@ const login_post = defineEventHandler(async (event) => {
       config.jwtSecret,
       { expiresIn: "7d" }
     );
+    logger.info(`Token g\xE9n\xE9r\xE9 pour l'utilisateur: ${user.email}`);
     const userResponse = {
       id: user._id,
       email: user.email,
@@ -1681,7 +1673,7 @@ const login_post = defineEventHandler(async (event) => {
       user: userResponse
     };
   } catch (error) {
-    logger.error("Login error:", error);
+    logger.error("Erreur lors de la connexion:", error);
     throw createError({
       statusCode: error.statusCode || 500,
       message: error.message || "Erreur interne du serveur"
@@ -1752,7 +1744,7 @@ const register_post$2 = defineEventHandler(async (event) => {
         message: "JWT Secret is not configured"
       });
     }
-    const token = jwt.sign(
+    const token = jwt__default.sign(
       {
         userId: user._id,
         email: user.email,
@@ -2177,14 +2169,14 @@ const _id__get$3 = /*#__PURE__*/Object.freeze({
 const verifyToken = (token) => {
   const config = useRuntimeConfig();
   try {
-    return jwt.verify(token, config.jwtSecret);
+    return jwt__default.verify(token, config.jwtSecret);
   } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
+    if (error instanceof jwt__default.TokenExpiredError) {
       throw createError({
         statusCode: 401,
         message: "Token expired"
       });
-    } else if (error instanceof jwt.JsonWebTokenError) {
+    } else if (error instanceof jwt__default.JsonWebTokenError) {
       throw createError({
         statusCode: 401,
         message: "Invalid token"
