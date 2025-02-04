@@ -244,10 +244,25 @@
  const password = ref('')
  const loading = ref(false)
  const showModal = ref(false);
- const isAuthenticated = computed(() => auth.isAuthenticated)
- const user = computed(() => auth.state.user)
- const isAdmin = computed(() => user.value?.role === 'admin')
- const isProducer = computed(() => user.value?.userType === 'producer')
+ 
+ const isAuthenticated = computed(() => {
+   console.log('Authentication state:', auth.isAuthenticated)
+   return auth.isAuthenticated
+ })
+ const user = computed(() => {
+   console.log('User object:', auth.state.user)
+   return auth.state.user
+ })
+ const isAdmin = computed(() => {
+   const adminStatus = user.value?.role === 'admin'
+   console.log('Is Admin:', adminStatus, 'User role:', user.value?.role)
+   return adminStatus
+ })
+ const isProducer = computed(() => {
+   const producerStatus = user.value?.userType === 'producer'
+   console.log('Is Producer:', producerStatus, 'User type:', user.value?.userType)
+   return producerStatus
+ })
  
  const userTypeLabel = computed(() => {
    const types = {

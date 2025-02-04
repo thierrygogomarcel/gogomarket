@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useToast } from '~/composables/useToast'
-import { useRouter } from 'nuxt/app'
+import { useCookie, useRouter } from 'nuxt/app'
 
 interface UserData {
   id?: string
@@ -23,7 +23,7 @@ interface AuthState {
 
 export const useAuth = defineStore('auth', () => {
   const state = ref<AuthState>({
-    token: useCookie('auth_token').value,
+    token: useCookie('auth_token').value ?? null,
     user: null,
     loading: false
   })

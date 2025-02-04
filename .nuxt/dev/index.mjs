@@ -1,39 +1,39 @@
-import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, eventHandler, createError, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, setHeaders, sendRedirect, proxyRequest, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, setResponseHeaders, getRouterParam, readBody, getQuery as getQuery$1, readMultipartFormData, getResponseStatusText } from 'file:///home/project/node_modules/h3/dist/index.mjs';
+import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { mkdirSync } from 'node:fs';
 import { Server } from 'node:http';
-import { mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parentPort, threadId } from 'node:worker_threads';
-import jwt from 'file:///home/project/node_modules/jsonwebtoken/index.js';
-import bcrypt from 'file:///home/project/node_modules/bcryptjs/index.js';
-import mongoose from 'file:///home/project/node_modules/mongoose/index.js';
-import { z } from 'file:///home/project/node_modules/zod/lib/index.mjs';
+import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, eventHandler, createError, defineEventHandler, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, setHeaders, sendRedirect, proxyRequest, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, setResponseHeaders, getRouterParam, getQuery as getQuery$1, readBody, readMultipartFormData, getResponseStatusText } from 'file://C:/Users/thier/Documents/agroproject/node_modules/h3/dist/index.mjs';
+import jwt from 'file://C:/Users/thier/Documents/agroproject/node_modules/jsonwebtoken/index.js';
+import bcrypt from 'file://C:/Users/thier/Documents/agroproject/node_modules/bcryptjs/index.js';
+import mongoose from 'file://C:/Users/thier/Documents/agroproject/node_modules/mongoose/index.js';
+import { z } from 'file://C:/Users/thier/Documents/agroproject/node_modules/zod/lib/index.mjs';
 import { promises } from 'fs';
 import path from 'path';
-import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file:///home/project/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import { stringify, uneval } from 'file:///home/project/node_modules/devalue/index.js';
-import destr from 'file:///home/project/node_modules/destr/dist/index.mjs';
-import { withQuery, joinURL, withTrailingSlash, parseURL, withoutBase, getQuery, joinRelativeURL } from 'file:///home/project/node_modules/ufo/dist/index.mjs';
-import { renderToString } from 'file:///home/project/node_modules/vue/server-renderer/index.mjs';
-import { propsToString, renderSSRHead } from 'file:///home/project/node_modules/@unhead/ssr/dist/index.mjs';
-import { createHooks } from 'file:///home/project/node_modules/hookable/dist/index.mjs';
-import { createFetch as createFetch$1, Headers as Headers$1 } from 'file:///home/project/node_modules/ofetch/dist/node.mjs';
-import { createCall, createFetch } from 'file:///home/project/node_modules/unenv/runtime/fetch/index.mjs';
-import { klona } from 'file:///home/project/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file:///home/project/node_modules/defu/dist/defu.mjs';
-import { snakeCase } from 'file:///home/project/node_modules/scule/dist/index.mjs';
-import { createStorage, prefixStorage } from 'file:///home/project/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file:///home/project/node_modules/unstorage/drivers/fs.mjs';
-import { toRouteMatcher, createRouter } from 'file:///home/project/node_modules/radix3/dist/index.mjs';
-import { getContext } from 'file:///home/project/node_modules/unctx/dist/index.mjs';
+import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://C:/Users/thier/Documents/agroproject/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import { stringify, uneval } from 'file://C:/Users/thier/Documents/agroproject/node_modules/devalue/index.js';
+import destr from 'file://C:/Users/thier/Documents/agroproject/node_modules/destr/dist/index.mjs';
+import { withQuery, joinURL, withTrailingSlash, parseURL, withoutBase, getQuery, joinRelativeURL } from 'file://C:/Users/thier/Documents/agroproject/node_modules/ufo/dist/index.mjs';
+import { renderToString } from 'file://C:/Users/thier/Documents/agroproject/node_modules/vue/server-renderer/index.mjs';
+import { propsToString, renderSSRHead } from 'file://C:/Users/thier/Documents/agroproject/node_modules/@unhead/ssr/dist/index.mjs';
+import { createServerHead as createServerHead$1, CapoPlugin } from 'file://C:/Users/thier/Documents/agroproject/node_modules/unhead/dist/index.mjs';
+import { klona } from 'file://C:/Users/thier/Documents/agroproject/node_modules/klona/dist/index.mjs';
+import defu, { defuFn } from 'file://C:/Users/thier/Documents/agroproject/node_modules/defu/dist/defu.mjs';
+import { snakeCase } from 'file://C:/Users/thier/Documents/agroproject/node_modules/scule/dist/index.mjs';
+import { createHooks } from 'file://C:/Users/thier/Documents/agroproject/node_modules/hookable/dist/index.mjs';
+import { createFetch as createFetch$1, Headers as Headers$1 } from 'file://C:/Users/thier/Documents/agroproject/node_modules/ofetch/dist/node.mjs';
+import { createCall, createFetch } from 'file://C:/Users/thier/Documents/agroproject/node_modules/unenv/runtime/fetch/index.mjs';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { consola } from 'file:///home/project/node_modules/consola/dist/index.mjs';
-import { captureRawStackTrace, parseRawStackTrace } from 'file:///home/project/node_modules/errx/dist/index.js';
-import { isVNode, unref, version } from 'file:///home/project/node_modules/vue/index.mjs';
-import winston from 'file:///home/project/node_modules/winston/lib/winston.js';
-import { hash } from 'file:///home/project/node_modules/ohash/dist/index.mjs';
-import { createServerHead as createServerHead$1, CapoPlugin } from 'file:///home/project/node_modules/unhead/dist/index.mjs';
-import { defineHeadPlugin } from 'file:///home/project/node_modules/@unhead/shared/dist/index.mjs';
+import { consola } from 'file://C:/Users/thier/Documents/agroproject/node_modules/consola/dist/index.mjs';
+import { getContext } from 'file://C:/Users/thier/Documents/agroproject/node_modules/unctx/dist/index.mjs';
+import { captureRawStackTrace, parseRawStackTrace } from 'file://C:/Users/thier/Documents/agroproject/node_modules/errx/dist/index.js';
+import { isVNode, version, unref } from 'file://C:/Users/thier/Documents/agroproject/node_modules/vue/index.mjs';
+import winston from 'file://C:/Users/thier/Documents/agroproject/node_modules/winston/lib/winston.js';
+import { hash } from 'file://C:/Users/thier/Documents/agroproject/node_modules/ohash/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file://C:/Users/thier/Documents/agroproject/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file://C:/Users/thier/Documents/agroproject/node_modules/unstorage/drivers/fs.mjs';
+import { toRouteMatcher, createRouter } from 'file://C:/Users/thier/Documents/agroproject/node_modules/radix3/dist/index.mjs';
+import { defineHeadPlugin } from 'file://C:/Users/thier/Documents/agroproject/node_modules/@unhead/shared/dist/index.mjs';
 
 function hasReqHeader(event, name, includes) {
   const value = getRequestHeader(event, name);
@@ -179,13 +179,13 @@ if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
 window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
 `;
 
-const _SKCnZOauqe = (function(nitro) {
+const _Z8SGtNbgNd = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
     htmlContext.head.push(`<script>${script$1}<\/script>`);
   });
 });
 
-const rootDir = "/home/project";
+const rootDir = "C:/Users/thier/Documents/agroproject";
 
 const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"name":"description","content":"Plateforme de mise en relation entre producteurs et acheteurs de produits agricoles"}],"link":[{"rel":"icon","type":"image/png","href":"/logo.png"}],"style":[],"script":[],"noscript":[],"title":"GoGoMarket"};
 
@@ -204,7 +204,7 @@ const devReducers = {
   URL: (data) => data instanceof URL ? data.toString() : undefined
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _5gU0qFpjn9 = (nitroApp) => {
+const _maHvPADrq6 = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -275,7 +275,7 @@ function onConsoleLog(callback) {
 
 const script = "\"use strict\";(()=>{const t=window,e=document.documentElement,c=[\"dark\",\"light\"],n=getStorageValue(\"localStorage\",\"nuxt-color-mode\")||\"light\";let i=n===\"system\"?u():n;const r=e.getAttribute(\"data-color-mode-forced\");r&&(i=r),l(i),t[\"__NUXT_COLOR_MODE__\"]={preference:n,value:i,getColorScheme:u,addColorScheme:l,removeColorScheme:d};function l(o){const s=\"\"+o+\"\",a=\"\";e.classList?e.classList.add(s):e.className+=\" \"+s,a&&e.setAttribute(\"data-\"+a,o)}function d(o){const s=\"\"+o+\"\",a=\"\";e.classList?e.classList.remove(s):e.className=e.className.replace(new RegExp(s,\"g\"),\"\"),a&&e.removeAttribute(\"data-\"+a)}function f(o){return t.matchMedia(\"(prefers-color-scheme\"+o+\")\")}function u(){if(t.matchMedia&&f(\"\").media!==\"not all\"){for(const o of c)if(f(\":\"+o).matches)return o}return\"light\"}})();function getStorageValue(t,e){switch(t){case\"localStorage\":return window.localStorage.getItem(e);case\"sessionStorage\":return window.sessionStorage.getItem(e);case\"cookie\":return getCookie(e);default:return null}}function getCookie(t){const c=(\"; \"+window.document.cookie).split(\"; \"+t+\"=\");if(c.length===2)return c.pop()?.split(\";\").shift()}";
 
-const _6NfI6BipN1 = (function(nitro) {
+const _IeraNIYa5f = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
     htmlContext.head.push(`<script>${script}<\/script>`);
   });
@@ -344,7 +344,7 @@ async function connectDB() {
   return cached.conn;
 }
 
-const _rBOn4F4uX3 = defineNitroPlugin(async () => {
+const _GSeDLHACSY = defineNitroPlugin(async () => {
   try {
     await connectDB();
     logger.info("MongoDB plugin initialized");
@@ -355,10 +355,10 @@ const _rBOn4F4uX3 = defineNitroPlugin(async () => {
 });
 
 const plugins = [
-  _SKCnZOauqe,
-_5gU0qFpjn9,
-_6NfI6BipN1,
-_rBOn4F4uX3
+  _Z8SGtNbgNd,
+_maHvPADrq6,
+_IeraNIYa5f,
+_GSeDLHACSY
 ];
 
 const inlineAppConfig = {
@@ -435,9 +435,9 @@ const _inlineRuntimeConfig = {
   "public": {
     "apiBase": "http://localhost:3000"
   },
-  "jwtSecret": "",
-  "jwtExpiresIn": "",
-  "mongodbUri": ""
+  "jwtSecret": "ed68fc31d9acf97131a42a95987c9dddbb390f5befdf646c324c8f86f443b0f7",
+  "jwtExpiresIn": "7d",
+  "mongodbUri": "mongodb+srv://thierry_gogo:M2024Mano@cluster0.rf9zo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 };
 const envOptions = {
   prefix: "NITRO_",
@@ -483,7 +483,7 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
   }
 });
 
-const _GlT1Mv = eventHandler(async (event) => {
+const _atjrSP = eventHandler(async (event) => {
   const publicRoutes = [
     "/",
     "/api/auth/login",
@@ -516,91 +516,91 @@ const _GlT1Mv = eventHandler(async (event) => {
   }
 });
 
-const _lazy_i65Q32 = () => Promise.resolve().then(function () { return recentProducts_get$1; });
-const _lazy_UM1UPJ = () => Promise.resolve().then(function () { return recentUsers_get$1; });
-const _lazy_EwWeIT = () => Promise.resolve().then(function () { return stats_get$3; });
-const _lazy_JlECVn = () => Promise.resolve().then(function () { return create_post$1; });
-const _lazy_Ddi8SE = () => Promise.resolve().then(function () { return sponsored_get$1; });
-const _lazy_tFl1il = () => Promise.resolve().then(function () { return login_post$1; });
-const _lazy_rF3TBZ = () => Promise.resolve().then(function () { return me_get$1; });
-const _lazy_seGb5N = () => Promise.resolve().then(function () { return register_post$3; });
-const _lazy_SXW0fv = () => Promise.resolve().then(function () { return fees_post$1; });
-const _lazy_ppVnAb = () => Promise.resolve().then(function () { return _id__delete$7; });
-const _lazy_yzzGY0 = () => Promise.resolve().then(function () { return index_get$3; });
-const _lazy_9YA4qe = () => Promise.resolve().then(function () { return list_get$7; });
-const _lazy_n0KMRM = () => Promise.resolve().then(function () { return publish$1; });
-const _lazy_28CKBD = () => Promise.resolve().then(function () { return initiate_post$1; });
-const _lazy_5SHMtI = () => Promise.resolve().then(function () { return _transaction_id__get$1; });
-const _lazy_2Ovj0G = () => Promise.resolve().then(function () { return _id__delete$5; });
-const _lazy_6eq0dg = () => Promise.resolve().then(function () { return _id__get$3; });
-const _lazy_RHWDAH = () => Promise.resolve().then(function () { return _id__put$3; });
-const _lazy_nRLMO1 = () => Promise.resolve().then(function () { return add_post$1; });
-const _lazy_25yjzK = () => Promise.resolve().then(function () { return compare_post$1; });
-const _lazy_RlM47v = () => Promise.resolve().then(function () { return deleteAll$3; });
-const _lazy_ancPb5 = () => Promise.resolve().then(function () { return list_get$5; });
-const _lazy_tWGzs4 = () => Promise.resolve().then(function () { return list_get$3; });
-const _lazy_c5fv9F = () => Promise.resolve().then(function () { return _id__delete$3; });
-const _lazy_YxE5WG = () => Promise.resolve().then(function () { return index_get$1; });
-const _lazy_gIu9sH = () => Promise.resolve().then(function () { return index_post$1; });
-const _lazy_y72WWO = () => Promise.resolve().then(function () { return _id__delete$1; });
-const _lazy_Arfsab = () => Promise.resolve().then(function () { return _id__get$1; });
-const _lazy_DA3bIj = () => Promise.resolve().then(function () { return _id__put$1; });
-const _lazy_wh9gMP = () => Promise.resolve().then(function () { return role_put$1; });
-const _lazy_GMni9c = () => Promise.resolve().then(function () { return avatar_patch$1; });
-const _lazy_Nb7FH7 = () => Promise.resolve().then(function () { return deleteAll$1; });
-const _lazy_VyrEwz = () => Promise.resolve().then(function () { return list_get$1; });
-const _lazy_dXH5nm = () => Promise.resolve().then(function () { return profile_get$1; });
-const _lazy_rumbcs = () => Promise.resolve().then(function () { return register_post$1; });
-const _lazy_i0jWu8 = () => Promise.resolve().then(function () { return roles_get$1; });
-const _lazy_tDL5WZ = () => Promise.resolve().then(function () { return stats_get$1; });
-const _lazy_tnnSX9 = () => Promise.resolve().then(function () { return topup_post$1; });
-const _lazy_kdwqQN = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_iwdmKo = () => Promise.resolve().then(function () { return recentProducts_get$1; });
+const _lazy_6Q9c7C = () => Promise.resolve().then(function () { return recentUsers_get$1; });
+const _lazy_tq4jRi = () => Promise.resolve().then(function () { return stats_get$3; });
+const _lazy_c1Zfcf = () => Promise.resolve().then(function () { return create_post$1; });
+const _lazy_8XRS6a = () => Promise.resolve().then(function () { return sponsored_get$1; });
+const _lazy_aCgYZL = () => Promise.resolve().then(function () { return login_post$1; });
+const _lazy_fj1z0Z = () => Promise.resolve().then(function () { return me_get$1; });
+const _lazy_toYQ2i = () => Promise.resolve().then(function () { return register_post$3; });
+const _lazy_0ZDqMC = () => Promise.resolve().then(function () { return fees_post$1; });
+const _lazy_EjiZrG = () => Promise.resolve().then(function () { return _id__delete$7; });
+const _lazy_EPomog = () => Promise.resolve().then(function () { return index_get$3; });
+const _lazy_JRI8mZ = () => Promise.resolve().then(function () { return list_get$7; });
+const _lazy_RoJtLV = () => Promise.resolve().then(function () { return publish$1; });
+const _lazy_BHRKUx = () => Promise.resolve().then(function () { return initiate_post$1; });
+const _lazy_2gEq11 = () => Promise.resolve().then(function () { return _transaction_id__get$1; });
+const _lazy_Kd1pv0 = () => Promise.resolve().then(function () { return _id__delete$5; });
+const _lazy_6ZwYQf = () => Promise.resolve().then(function () { return _id__get$3; });
+const _lazy_EzV7jJ = () => Promise.resolve().then(function () { return _id__put$3; });
+const _lazy_3TmK91 = () => Promise.resolve().then(function () { return add_post$1; });
+const _lazy_ipmr0n = () => Promise.resolve().then(function () { return compare_post$1; });
+const _lazy_Ta8MG0 = () => Promise.resolve().then(function () { return deleteAll$3; });
+const _lazy_zQ1hV7 = () => Promise.resolve().then(function () { return list_get$5; });
+const _lazy_MI27pG = () => Promise.resolve().then(function () { return list_get$3; });
+const _lazy_aWTn5h = () => Promise.resolve().then(function () { return _id__delete$3; });
+const _lazy_qIVmpr = () => Promise.resolve().then(function () { return index_get$1; });
+const _lazy_cPMoxM = () => Promise.resolve().then(function () { return index_post$1; });
+const _lazy_DrjY15 = () => Promise.resolve().then(function () { return _id__delete$1; });
+const _lazy_zQFeMp = () => Promise.resolve().then(function () { return _id__get$1; });
+const _lazy_W4RV7z = () => Promise.resolve().then(function () { return _id__put$1; });
+const _lazy_Gpj79u = () => Promise.resolve().then(function () { return role_put$1; });
+const _lazy_NNSqrP = () => Promise.resolve().then(function () { return avatar_patch$1; });
+const _lazy_O8OujQ = () => Promise.resolve().then(function () { return deleteAll$1; });
+const _lazy_HVVXHt = () => Promise.resolve().then(function () { return list_get$1; });
+const _lazy_rGChXW = () => Promise.resolve().then(function () { return profile_get$1; });
+const _lazy_IdtL2j = () => Promise.resolve().then(function () { return register_post$1; });
+const _lazy_YjSNXt = () => Promise.resolve().then(function () { return roles_get$1; });
+const _lazy_nzaURk = () => Promise.resolve().then(function () { return stats_get$1; });
+const _lazy_WCTmbK = () => Promise.resolve().then(function () { return topup_post$1; });
+const _lazy_wdinP7 = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '', handler: _GlT1Mv, lazy: false, middleware: true, method: undefined },
-  { route: '/api/admin/recent-products', handler: _lazy_i65Q32, lazy: true, middleware: false, method: "get" },
-  { route: '/api/admin/recent-users', handler: _lazy_UM1UPJ, lazy: true, middleware: false, method: "get" },
-  { route: '/api/admin/stats', handler: _lazy_EwWeIT, lazy: true, middleware: false, method: "get" },
-  { route: '/api/ads/create', handler: _lazy_JlECVn, lazy: true, middleware: false, method: "post" },
-  { route: '/api/ads/sponsored', handler: _lazy_Ddi8SE, lazy: true, middleware: false, method: "get" },
-  { route: '/api/auth/login', handler: _lazy_tFl1il, lazy: true, middleware: false, method: "post" },
-  { route: '/api/auth/me', handler: _lazy_rF3TBZ, lazy: true, middleware: false, method: "get" },
-  { route: '/api/auth/register', handler: _lazy_seGb5N, lazy: true, middleware: false, method: "post" },
-  { route: '/api/delivery/fees', handler: _lazy_SXW0fv, lazy: true, middleware: false, method: "post" },
-  { route: '/api/favorites/:id', handler: _lazy_ppVnAb, lazy: true, middleware: false, method: "delete" },
-  { route: '/api/favorites', handler: _lazy_yzzGY0, lazy: true, middleware: false, method: "get" },
-  { route: '/api/offers/list', handler: _lazy_9YA4qe, lazy: true, middleware: false, method: "get" },
-  { route: '/api/offers/publish', handler: _lazy_n0KMRM, lazy: true, middleware: false, method: undefined },
-  { route: '/api/payments/initiate', handler: _lazy_28CKBD, lazy: true, middleware: false, method: "post" },
-  { route: '/api/payments/status/:transaction_id', handler: _lazy_5SHMtI, lazy: true, middleware: false, method: "get" },
-  { route: '/api/products/:id', handler: _lazy_2Ovj0G, lazy: true, middleware: false, method: "delete" },
-  { route: '/api/products/:id', handler: _lazy_6eq0dg, lazy: true, middleware: false, method: "get" },
-  { route: '/api/products/:id', handler: _lazy_RHWDAH, lazy: true, middleware: false, method: "put" },
-  { route: '/api/products/add', handler: _lazy_nRLMO1, lazy: true, middleware: false, method: "post" },
-  { route: '/api/products/compare', handler: _lazy_25yjzK, lazy: true, middleware: false, method: "post" },
-  { route: '/api/products/delete-all', handler: _lazy_RlM47v, lazy: true, middleware: false, method: undefined },
-  { route: '/api/products/list', handler: _lazy_ancPb5, lazy: true, middleware: false, method: "get" },
-  { route: '/api/sales/list', handler: _lazy_tWGzs4, lazy: true, middleware: false, method: "get" },
-  { route: '/api/transactions/:id', handler: _lazy_c5fv9F, lazy: true, middleware: false, method: "delete" },
-  { route: '/api/transactions', handler: _lazy_YxE5WG, lazy: true, middleware: false, method: "get" },
-  { route: '/api/transactions', handler: _lazy_gIu9sH, lazy: true, middleware: false, method: "post" },
-  { route: '/api/users/:id', handler: _lazy_y72WWO, lazy: true, middleware: false, method: "delete" },
-  { route: '/api/users/:id', handler: _lazy_Arfsab, lazy: true, middleware: false, method: "get" },
-  { route: '/api/users/:id', handler: _lazy_DA3bIj, lazy: true, middleware: false, method: "put" },
-  { route: '/api/users/:id/role', handler: _lazy_wh9gMP, lazy: true, middleware: false, method: "put" },
-  { route: '/api/users/avatar', handler: _lazy_GMni9c, lazy: true, middleware: false, method: "patch" },
-  { route: '/api/users/delete-all', handler: _lazy_Nb7FH7, lazy: true, middleware: false, method: undefined },
-  { route: '/api/users/list', handler: _lazy_VyrEwz, lazy: true, middleware: false, method: "get" },
-  { route: '/api/users/profile', handler: _lazy_dXH5nm, lazy: true, middleware: false, method: "get" },
-  { route: '/api/users/register', handler: _lazy_rumbcs, lazy: true, middleware: false, method: "post" },
-  { route: '/api/users/roles', handler: _lazy_i0jWu8, lazy: true, middleware: false, method: "get" },
-  { route: '/api/users/stats', handler: _lazy_tDL5WZ, lazy: true, middleware: false, method: "get" },
-  { route: '/api/wallet/topup', handler: _lazy_tnnSX9, lazy: true, middleware: false, method: "post" },
-  { route: '/__nuxt_error', handler: _lazy_kdwqQN, lazy: true, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_kdwqQN, lazy: true, middleware: false, method: undefined }
+  { route: '', handler: _atjrSP, lazy: false, middleware: true, method: undefined },
+  { route: '/api/admin/recent-products', handler: _lazy_iwdmKo, lazy: true, middleware: false, method: "get" },
+  { route: '/api/admin/recent-users', handler: _lazy_6Q9c7C, lazy: true, middleware: false, method: "get" },
+  { route: '/api/admin/stats', handler: _lazy_tq4jRi, lazy: true, middleware: false, method: "get" },
+  { route: '/api/ads/create', handler: _lazy_c1Zfcf, lazy: true, middleware: false, method: "post" },
+  { route: '/api/ads/sponsored', handler: _lazy_8XRS6a, lazy: true, middleware: false, method: "get" },
+  { route: '/api/auth/login', handler: _lazy_aCgYZL, lazy: true, middleware: false, method: "post" },
+  { route: '/api/auth/me', handler: _lazy_fj1z0Z, lazy: true, middleware: false, method: "get" },
+  { route: '/api/auth/register', handler: _lazy_toYQ2i, lazy: true, middleware: false, method: "post" },
+  { route: '/api/delivery/fees', handler: _lazy_0ZDqMC, lazy: true, middleware: false, method: "post" },
+  { route: '/api/favorites/:id', handler: _lazy_EjiZrG, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/favorites', handler: _lazy_EPomog, lazy: true, middleware: false, method: "get" },
+  { route: '/api/offers/list', handler: _lazy_JRI8mZ, lazy: true, middleware: false, method: "get" },
+  { route: '/api/offers/publish', handler: _lazy_RoJtLV, lazy: true, middleware: false, method: undefined },
+  { route: '/api/payments/initiate', handler: _lazy_BHRKUx, lazy: true, middleware: false, method: "post" },
+  { route: '/api/payments/status/:transaction_id', handler: _lazy_2gEq11, lazy: true, middleware: false, method: "get" },
+  { route: '/api/products/:id', handler: _lazy_Kd1pv0, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/products/:id', handler: _lazy_6ZwYQf, lazy: true, middleware: false, method: "get" },
+  { route: '/api/products/:id', handler: _lazy_EzV7jJ, lazy: true, middleware: false, method: "put" },
+  { route: '/api/products/add', handler: _lazy_3TmK91, lazy: true, middleware: false, method: "post" },
+  { route: '/api/products/compare', handler: _lazy_ipmr0n, lazy: true, middleware: false, method: "post" },
+  { route: '/api/products/delete-all', handler: _lazy_Ta8MG0, lazy: true, middleware: false, method: undefined },
+  { route: '/api/products/list', handler: _lazy_zQ1hV7, lazy: true, middleware: false, method: "get" },
+  { route: '/api/sales/list', handler: _lazy_MI27pG, lazy: true, middleware: false, method: "get" },
+  { route: '/api/transactions/:id', handler: _lazy_aWTn5h, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/transactions', handler: _lazy_qIVmpr, lazy: true, middleware: false, method: "get" },
+  { route: '/api/transactions', handler: _lazy_cPMoxM, lazy: true, middleware: false, method: "post" },
+  { route: '/api/users/:id', handler: _lazy_DrjY15, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/users/:id', handler: _lazy_zQFeMp, lazy: true, middleware: false, method: "get" },
+  { route: '/api/users/:id', handler: _lazy_W4RV7z, lazy: true, middleware: false, method: "put" },
+  { route: '/api/users/:id/role', handler: _lazy_Gpj79u, lazy: true, middleware: false, method: "put" },
+  { route: '/api/users/avatar', handler: _lazy_NNSqrP, lazy: true, middleware: false, method: "patch" },
+  { route: '/api/users/delete-all', handler: _lazy_O8OujQ, lazy: true, middleware: false, method: undefined },
+  { route: '/api/users/list', handler: _lazy_HVVXHt, lazy: true, middleware: false, method: "get" },
+  { route: '/api/users/profile', handler: _lazy_rGChXW, lazy: true, middleware: false, method: "get" },
+  { route: '/api/users/register', handler: _lazy_IdtL2j, lazy: true, middleware: false, method: "post" },
+  { route: '/api/users/roles', handler: _lazy_YjSNXt, lazy: true, middleware: false, method: "get" },
+  { route: '/api/users/stats', handler: _lazy_nzaURk, lazy: true, middleware: false, method: "get" },
+  { route: '/api/wallet/topup', handler: _lazy_WCTmbK, lazy: true, middleware: false, method: "post" },
+  { route: '/__nuxt_error', handler: _lazy_wdinP7, lazy: true, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_wdinP7, lazy: true, middleware: false, method: undefined }
 ];
 
-const serverAssets = [{"baseName":"server","dir":"/home/project/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"C:/Users/thier/Documents/agroproject/server/assets"}];
 
 const assets = createStorage();
 
@@ -612,11 +612,11 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets);
 
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/project","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/project/server","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/project/.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/project/.nuxt/cache","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"/home/project/.data/kv","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\thier\\Documents\\agroproject","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\thier\\Documents\\agroproject\\server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\thier\\Documents\\agroproject\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\thier\\Documents\\agroproject\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"C:\\Users\\thier\\Documents\\agroproject\\.data\\kv","ignore":["**/node_modules/**","**/.git/**"]}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -955,11 +955,6 @@ function cloneWithProxy(obj, overrides) {
   });
 }
 const cachedEventHandler = defineCachedEventHandler;
-
-getContext("nitro-app", {
-  asyncContext: false,
-  AsyncLocalStorage: undefined
-});
 
 const config = useRuntimeConfig();
 const _routeRulesMatcher = toRouteMatcher(
@@ -3115,8 +3110,8 @@ function publicAssetsURL(...path) {
 
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
-const getClientManifest = () => import('file:///home/project/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
-const getServerEntry = () => import('file:///home/project/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
+const getClientManifest = () => import('file://C:/Users/thier/Documents/agroproject/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getServerEntry = () => import('file://C:/Users/thier/Documents/agroproject/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
 const getSSRStyles = lazyCachedFunction(() => Promise.resolve().then(function () { return styles$1; }).then((r) => r.default || r));
 const getSSRRenderer = lazyCachedFunction(async () => {
   const manifest = await getClientManifest();
