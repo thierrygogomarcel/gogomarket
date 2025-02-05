@@ -1,7 +1,11 @@
-import { toast } from 'vue3-toastify'
+ import { toast, ToastOptions } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
-// Map of technical errors to user-friendly messages
+// Extend ToastOptions to include draggable
+interface ExtendedToastOptions extends ToastOptions {
+  draggable?: boolean;
+}
+
 const errorMessages: Record<string, string> = {
   'auth/invalid-credentials': 'Email ou mot de passe incorrect. Veuillez réessayer.',
   'auth/user-not-found': 'Aucun compte trouvé avec cet email.',
@@ -18,9 +22,15 @@ const errorMessages: Record<string, string> = {
   'default': 'Une erreur s\'est produite. Veuillez réessayer.'
 }
 
-export const useToast = () => {
-  const success = (message: string) => {
-    toast.success(message, {
+interface UseToastReturn {
+  success: (message: string) => void;
+  error: (errorCode: string | Error) => void;
+  info: (message: string) => void;
+}
+
+export const useToast = (): UseToastReturn => {
+  const success = (message: string): void => {
+    const toastOptions: ExtendedToastOptions = {
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
@@ -28,33 +38,33 @@ export const useToast = () => {
       pauseOnHover: true,
       draggable: true,
       theme: 'colored'
-    })
+    }
+    toast.success(message, toastOptions)
   }
 
-  const error = (errorCode: string | Error) => {
+  const error = (errorCode: string | Error): void => {
     let message: string
     
     if (errorCode instanceof Error) {
-      // Try to extract error code from error message
       const code = errorCode.message.split('/')[1] || 'default'
       message = errorMessages[code] || errorMessages.default
     } else {
       message = errorMessages[errorCode] || errorMessages.default
     }
 
-    toast.error(message, {
+    const toastOptions: ExtendedToastOptions = {
       position: 'top-right',
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-      theme: 'colored'
-    })
+    }
+    toast.error(message, toastOptions)
   }
 
-  const info = (message: string) => {
-    toast.info(message, {
+  const info = (message: string): void => {
+    const toastOptions: ExtendedToastOptions = {
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
@@ -62,7 +72,8 @@ export const useToast = () => {
       pauseOnHover: true,
       draggable: true,
       theme: 'colored'
-    })
+    }
+    toast.info(message, toastOptions)
   }
 
   return {

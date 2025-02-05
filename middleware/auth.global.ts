@@ -1,8 +1,8 @@
 import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app'
-import { useAuth } from '~/composables/useAuth'
-import { useToast } from '~/composables/useToast'
+import { useAuth } from '../composables/useAuth'
+import { useToast } from '../composables/useToast'
 
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware((to: { path: string }) => {
   const auth = useAuth()
   const toast = useToast()
 
@@ -19,13 +19,13 @@ export default defineNuxtRouteMiddleware((to) => {
   }
 
   // Protect admin routes
-  if (to.path.startsWith('/admin') && auth.state.user?.role !== 'admin') {
+  if (to.path.startsWith('/admin') && auth.state?.user?.role !== 'admin') {
     toast.error('Accès non autorisé')
     return navigateTo('/')
   }
 
   // Protect seller routes
-  if (to.path === '/publier' && auth.state.user?.userType !== 'producer') {
+  if (to.path === '/publier' && auth.state?.user?.userType !== 'producer') {
     toast.error('Accès non autorisé')
     return navigateTo('/')
   }

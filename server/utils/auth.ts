@@ -1,41 +1,12 @@
-import bcrypt from 'bcryptjs'
+import { H3Event, createError } from 'h3'
+import { useRuntimeConfig } from '../utils/config'
+import { User } from '../models/user'
 import jwt from 'jsonwebtoken'
-import { createError, H3Event } from 'h3'
 
 // Function to hash password
 export const hashPassword = async (password: string): Promise<string> => {
   const salt = await bcrypt.genSalt(10)
   return bcrypt.hash(password, salt)
-}
-
-// Function to compare password
-export const comparePassword = async (
-  password: string,
-  hashedPassword: string
-): Promise<boolean> => {
-  return bcrypt.compare(password, hashedPassword)
-}
-
-// JWT payload interface
-export interface JwtPayloadWithUserType {
-  _id: any
-  userId: string
-  email: string
-  role: string
-  userType: 'producer' | 'buyer' | 'transport' | 'admin'
-}
-
-// Function to verify token
-export const verifyToken = (token: string, config: any): JwtPayloadWithUserType => {
-  try {
-    const decoded = jwt.verify(token, config.jwtSecret) as JwtPayloadWithUserType
-    return decoded
-  } catch (error) {
-    throw createError({
-      statusCode: 401,
-      message: 'Token invalide ou expiré'
-    })
-  }
 }
 
 // Function to get user from token

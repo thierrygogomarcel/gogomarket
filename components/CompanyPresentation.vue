@@ -1,10 +1,10 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6">
-    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity cursor-pointer" @click="$emit('close')"></div>
+  <div v-if="showPresentation" class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6">
+    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity cursor-pointer" @click="closePresentation"></div>
     
     <div class="relative bg-white rounded-lg shadow-xl max-w-4xl w-full mx-auto animate-slide-down">
       <button 
-        @click="$emit('close')" 
+        @click="closePresentation" 
         class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 cursor-pointer"
       >
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,15 +70,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const emit = defineEmits(['close'])
+const showPresentation = ref(true)
+let autoCloseTimer: number | null = null
 
 const solutions = ref([
   { image: 'https://images.unsplash.com/photo-1586880244406-556ebe35f282?w=300', title: 'Gestion agricole intelligente', alt: 'Solution 1' },
   { image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=300', title: 'Analyse de données', alt: 'Solution 2' },
   { image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300', title: 'Solutions mobiles', alt: 'Solution 3' }
 ])
+
+const closePresentation = () => {
+  showPresentation.value = false
+  if (autoCloseTimer) {
+    clearTimeout(autoCloseTimer)
+    autoCloseTimer = null
+  }
+  emit('close')
+}
+
+onMounted(() => {
+  autoCloseTimer = window.setTimeout(() => {
+    closePresentation()
+  }, 15000) // 15 secondes
+})
+
+onBeforeUnmount(() => {
+  if (autoCloseTimer) {
+    clearTimeout(autoCloseTimer)
+  }
+})
 </script>
 
 <style scoped>
