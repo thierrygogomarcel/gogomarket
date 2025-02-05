@@ -1,4 +1,5 @@
-import { requireAuth } from '../../utils/auth'
+ 
+import { requireAuth } from '~/utils/jwt'
 import { Favorite } from '../../models/favorite'
 import { createError } from 'h3'
 

@@ -29,7 +29,14 @@ export const useSubscriptionStore = defineStore('subscription', {
           method: 'POST',
           body: { planId }
         })
-        this.currentSubscription = response
+        
+        // Type guard to validate the response
+        if (this.isValidSubscription(response)) {
+          this.currentSubscription = response
+        } else {
+          throw new Error('Invalid subscription response')
+        }
+        
         return response
       } catch (error: any) {
         this.error = error.message
@@ -37,6 +44,16 @@ export const useSubscriptionStore = defineStore('subscription', {
       } finally {
         this.loading = false
       }
+    },
+
+    // Type guard to validate subscription
+    isValidSubscription(obj: any): obj is Subscription {
+      return obj && 
+        typeof obj.id === 'string' &&
+        typeof obj.plan === 'string' &&
+        typeof obj.price === 'number' &&
+        Array.isArray(obj.features) &&
+        typeof obj.active === 'boolean'
     }
   }
 })

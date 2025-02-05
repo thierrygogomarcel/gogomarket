@@ -1,10 +1,17 @@
-import { requireAuth } from '../../utils/auth'
-import { Favorite } from '../../models/favorite'
-import { createError } from 'h3'
+ import { Favorite } from '../../models/favorite'
+import { createError, EventHandlerRequest, H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {
-    const user = await requireAuth(event)
+    const user = event.context.user
+
+    // Add a type guard to check if user exists
+    if (!user) {
+      throw createError({
+        statusCode: 401,
+        message: 'Unauthorized: User not found'
+      })
+    }
 
     const favorites = await Favorite.find({ userId: user.userId })
       .populate('productId')
@@ -20,3 +27,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
+
+function requireAuth(event: H3Event<EventHandlerRequest>) {
+  throw new Error('Function not implemented.')
+}

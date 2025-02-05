@@ -1,7 +1,7 @@
  
 import { User } from '../../models/user'
 import { createError } from 'h3'
-import { hashPassword } from '../../utils/auth'
+ 
 import { validateData, registerSchema } from '../../utils/validation'
 
 export default defineEventHandler(async (event) => {
@@ -43,3 +43,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 }) 
+
+function hashPassword(password: string) {
+  throw new Error('Function not implemented.')
+}

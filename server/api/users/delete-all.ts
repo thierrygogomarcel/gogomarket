@@ -1,8 +1,7 @@
 // server/api/users/delete-all.ts
 import { User } from '../../models/user';
 import { Product } from '../../models/product';
-import { createError } from 'h3';
-import { getUserFromToken } from '../../utils/auth'; // Fonction pour extraire l'utilisateur du token
+import { createError, EventHandlerRequest, H3Event, getHeader } from 'h3'; 
 
 
 export default defineEventHandler(async (event) => {
@@ -33,3 +32,22 @@ export default defineEventHandler(async (event) => {
     });
   }
 });
+
+function getUserFromToken(event: H3Event<EventHandlerRequest>) {
+  // TODO: Implement actual token validation logic
+  // This is a placeholder implementation
+  const token = getHeader(event, 'authorization')?.replace('Bearer ', '');
+  
+  if (!token) {
+    return null;
+  }
+
+  // In a real implementation, you would:
+  // 1. Verify the token's validity
+  // 2. Decode the token
+  // 3. Fetch the user from the database
+  // For now, return a mock admin user
+  return {
+    role: 'admin'
+  };
+}

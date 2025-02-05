@@ -1,5 +1,6 @@
 // server/api/users/stats.get.ts
-import { requireAuth } from '../../utils/auth'
+
+import { requireAuth } from '~/utils/jwt'
 import { Product } from '../../models/product'
 import { Transaction } from '../../models/transaction'
 import { createError } from 'h3'

@@ -1,6 +1,6 @@
 import { Product } from '../../models/product'
-import { createError } from 'h3'
-import { requireAuth } from '../../utils/auth'
+import { createError, EventHandlerRequest, H3Event } from 'h3' 
+import { requireAuth } from '~/utils/jwt'
 
 export default defineEventHandler(async (event) => {
   try {

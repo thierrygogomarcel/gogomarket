@@ -1,8 +1,8 @@
 import { defineEventHandler, readMultipartFormData, createError } from 'h3'
-import { Product } from '../../models/product'
-import { requireAuth } from '../../utils/auth'
+import { Product } from '../../models/product' 
 import { promises as fs } from 'fs'
 import path from 'path'
+import { requireAuth } from '~/utils/jwt'
 
 export default defineEventHandler(async (event) => {
   try {

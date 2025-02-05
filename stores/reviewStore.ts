@@ -15,6 +15,10 @@ interface ReviewState {
   error: string | null
 }
 
+interface ReviewsResponse {
+  reviews: Review[]
+}
+
 export const useReviewStore = defineStore('review', {
   state: (): ReviewState => ({
     reviews: {},
@@ -26,7 +30,7 @@ export const useReviewStore = defineStore('review', {
     async createReview(data: { productId: string; rating: number; comment: string }) {
       try {
         this.loading = true
-        const response = await $fetch('/api/reviews/create', {
+        const response = await $fetch<Review>('/api/reviews/create', {
           method: 'POST',
           body: data
         })
@@ -48,7 +52,7 @@ export const useReviewStore = defineStore('review', {
     async loadReviews(productId: string) {
       try {
         this.loading = true
-        const response = await $fetch(`/api/reviews/${productId}`)
+        const response = await $fetch<ReviewsResponse>(`/api/reviews/${productId}`)
         this.reviews[productId] = response.reviews
         return response
       } catch (error: any) {

@@ -1,5 +1,6 @@
-import { defineNuxtConfig } from 'nuxt/config'
+import { defineNuxtConfig } from "nuxt/config";
 
+// nuxt.config.ts
 export default defineNuxtConfig({
   ssr: true,
 
@@ -7,9 +8,16 @@ export default defineNuxtConfig({
     preset: 'node',
   },
 
-  devServer: {
-    port: 3001,
-    host: '0.0.0.0'
+  runtimeConfig: {
+    // Variables privées côté serveur
+    jwtSecret: process.env.JWT_SECRET || '', 
+    jwtExpiresIn: process.env.JWT_EXPIRES_IN || '1h', 
+    mongodbUri: process.env.MONGODB_URI,
+    // Variables publiques accessibles côté client
+    public: {
+      apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    }
   },
 
   modules: [
@@ -24,61 +32,8 @@ export default defineNuxtConfig({
     'vue3-toastify/dist/index.css'
   ],
 
-  app: {
-    head: {
-      title: 'GoGoMarket',
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Plateforme de mise en relation entre producteurs et acheteurs de produits agricoles' }
-      ],
-      link: [
-        { rel: 'icon', type: 'image/png', href: '/logo.png' }
-      ]
-    }
-  },
-
-  //@ts-ignore
-  colorMode: {
-    preference: 'light',
-    fallback: 'light',
-    classSuffix: ''
-  },
-
-  runtimeConfig: {
-    jwtSecret: process.env.JWT_SECRET || 'your-fallback-development-secret-key-change-in-production',
-    jwtExpiresIn: process.env.JWT_EXPIRES_IN,
-    mongodbUri: process.env.MONGODB_URI,
-    public: {
-      apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
-      baseUrl: process.env.BASE_URL || 'http://localhost:3000'
-    }
-  },
-
   build: {
     transpile: ['vue3-toastify']
-  },
-
-  devtools: {
-    enabled: false
-    // enabled: process.env.NODE_ENV !== 'production'
-  },
-
-  hooks: {
-    'pages:extend'(pages) {
-      pages.push(
-        {
-          name: 'favorites',
-          path: '/favoris',
-          file: '~/pages/favoris.vue'
-        },
-        {
-          name: 'users',
-          path: '/users',
-          file: '~/pages/admin/utilisateurs.vue'
-        }
-      )
-    }
   },
 
   compatibilityDate: '2025-02-05'

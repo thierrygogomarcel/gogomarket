@@ -1,5 +1,5 @@
-import { H3Event } from "h3";
-import { getUserFromToken } from "~/server/utils/auth";
+import { H3Event } from "h3"; 
+import { getUserFromToken } from "~/server/utils/auth";   
 import { Offer } from "~/server/models/Offer";
 
 export default defineEventHandler(async (event: H3Event) => {

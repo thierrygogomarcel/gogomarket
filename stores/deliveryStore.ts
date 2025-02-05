@@ -1,4 +1,4 @@
-```typescript
+ 
 import { defineStore } from 'pinia'
 
 interface DeliveryFees {
@@ -40,5 +40,4 @@ export const useDeliveryStore = defineStore('delivery', {
       }
     }
   }
-})
-```
+}) 

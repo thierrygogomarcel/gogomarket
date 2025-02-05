@@ -1,6 +1,5 @@
 import { User } from '../../models/user'
-import { createError } from 'h3'
-import { hashPassword } from '../../utils/auth'
+import { createError } from 'h3' 
 import jwt from 'jsonwebtoken'
 
 export default defineEventHandler(async (event) => {

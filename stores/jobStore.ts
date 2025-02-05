@@ -1,5 +1,4 @@
-```typescript
-import { defineStore } from 'pinia'
+ import { defineStore } from 'pinia'
 
 interface Job {
   id: string
@@ -17,6 +16,12 @@ interface JobState {
   error: string | null
 }
 
+interface JobListResponse {
+  jobs: Job[]
+  total?: number
+  page?: number
+}
+
 export const useJobStore = defineStore('job', {
   state: (): JobState => ({
     jobs: [],
@@ -28,7 +33,7 @@ export const useJobStore = defineStore('job', {
     async postJob(jobData: Partial<Job>) {
       try {
         this.loading = true
-        const response = await $fetch('/api/jobs/post', {
+        const response: { job: Job } = await $fetch('/api/jobs/post', {
           method: 'POST',
           body: jobData
         })
@@ -44,7 +49,7 @@ export const useJobStore = defineStore('job', {
     async getJobs(filters?: any) {
       try {
         this.loading = true
-        const response = await $fetch('/api/jobs/list', {
+        const response: { jobs: Job[], total: number } = await $fetch('/api/jobs/list', {
           params: filters
         })
         this.jobs = response.jobs
@@ -58,4 +63,3 @@ export const useJobStore = defineStore('job', {
     }
   }
 })
-```

@@ -1,5 +1,5 @@
  import { defineNuxtPlugin, useCookie } from 'nuxt/app'   
-import { $fetch, FetchOptions } from 'ofetch'
+import { $fetch, type FetchOptions } from 'ofetch'
 
 export default defineNuxtPlugin((nuxtApp) => {
   // Intercepter toutes les requêtes pour ajouter le token

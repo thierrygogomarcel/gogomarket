@@ -1,6 +1,5 @@
-import { requireAuth } from '../../utils/auth'
-import { Transaction } from '../../models/transaction'
-import { createError } from 'h3'
+ import { Transaction } from '../../models/transaction'
+import { createError, EventHandlerRequest, H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -44,3 +43,14 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
+
+function requireAuth(event: H3Event<EventHandlerRequest>) {
+  const user = event.context.user
+  if (!user) {
+    throw createError({
+      statusCode: 401,
+      message: 'Unauthorized'
+    })
+  }
+  return user
+}

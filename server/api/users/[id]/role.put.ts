@@ -1,4 +1,5 @@
-import { requireAuth } from '../../../utils/auth'
+ 
+import { requireAuth } from '~/utils/jwt'
 import { User } from '../../../models/user'
 import { createError } from 'h3'
 

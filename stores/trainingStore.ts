@@ -15,6 +15,10 @@ interface TrainingState {
   error: string | null
 }
 
+interface TrainingResponse {
+  trainings: Training[]
+}
+
 export const useTrainingStore = defineStore('training', {
   state: (): TrainingState => ({
     trainings: [],
@@ -26,7 +30,7 @@ export const useTrainingStore = defineStore('training', {
     async fetchTrainings() {
       try {
         this.loading = true
-        const response = await $fetch('/api/training')
+        const response = await $fetch<TrainingResponse>('/api/training')
         this.trainings = response.trainings
       } catch (error: any) {
         this.error = error.message

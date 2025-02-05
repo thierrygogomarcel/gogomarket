@@ -1,13 +1,16 @@
+// server/plugins/mongoose.ts
 import { defineNitroPlugin } from 'nitropack/runtime/plugin'
-import { connectDB } from '../utils/db'
-import { logger } from '../utils/logger'
+import mongoose from 'mongoose'
+import { getServerConfig } from '../utils/config'
 
 export default defineNitroPlugin(async () => {
+  const config = getServerConfig()
+  
   try {
-    await connectDB()
-    logger.info('MongoDB plugin initialized')
+    await mongoose.connect(config.mongodbUri!)
+    console.log('MongoDB connected successfully')
   } catch (error) {
-    logger.error('Failed to initialize MongoDB plugin:', error)
+    console.error('MongoDB connection error:', error)
     throw error
   }
 })

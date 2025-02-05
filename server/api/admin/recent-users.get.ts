@@ -1,6 +1,6 @@
-import { requireAuth } from '../../utils/auth'
-import { User } from '../../models/user'
-import { createError } from 'h3'
+ import { User, UserDocument } from '../../models/user'
+import { createError, EventHandlerRequest, H3Event } from 'h3'
+import { getCookie } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -20,10 +20,34 @@ export default defineEventHandler(async (event) => {
       .limit(5)
 
     return recentUsers
-  } catch (error: any) {
+  } catch (error) {
     throw createError({
-      statusCode: error.statusCode || 500,
-      message: error.message || 'Erreur serveur'
+      statusCode: 500,
+      message: 'Erreur lors de la récupération des utilisateurs récents'
     })
   }
 })
+
+async function requireAuth(event: H3Event<EventHandlerRequest>): Promise<UserDocument> {
+  // Récupérer l'utilisateur authentifié depuis la session ou le token
+  const token = getCookie(event, 'auth_token')
+
+  if (!token) {
+    throw createError({
+      statusCode: 401,
+      message: 'Non authentifié'
+    })
+  }
+
+  // Trouver l'utilisateur avec le token
+  const user = await User.findOne({ token })
+
+  if (!user) {
+    throw createError({
+      statusCode: 401,
+      message: 'Utilisateur non trouvé'
+    })
+  }
+
+  return user
+}

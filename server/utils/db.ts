@@ -3,7 +3,8 @@ import { logger } from './logger'
 
 // Extend the global type to include mongoose property
 declare global {
-  var mongoose: { 
+  var mongoose: {
+    cached: typeof import("mongoose") 
     conn: null | Connection, 
     promise: null | Promise<mongoose.Mongoose> 
   } | undefined
@@ -16,7 +17,11 @@ if (!MONGODB_URI) {
 }
 
 // Ensure cached is always initialized
-global.mongoose = global.mongoose || { conn: null, promise: null }
+global.mongoose = global.mongoose || { 
+  cached: mongoose, 
+  conn: null, 
+  promise: null 
+}
 const cached = global.mongoose
 
 export async function connectDB() {

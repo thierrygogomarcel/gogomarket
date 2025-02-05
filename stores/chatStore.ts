@@ -15,6 +15,12 @@ interface ChatState {
   error: string | null
 }
 
+interface ChatResponse {
+  conversationId?: string
+  messageId?: string
+  messages?: Message[]
+}
+
 export const useChatStore = defineStore('chat', {
   state: (): ChatState => ({
     conversations: {},
@@ -27,11 +33,12 @@ export const useChatStore = defineStore('chat', {
     async startChat(userId: string) {
       try {
         this.loading = true
-        const response = await $fetch('/api/chat/start', {
+        const response: ChatResponse = await $fetch('/api/chat/start', {
           method: 'POST',
           body: { userId }
         })
-        this.activeConversation = response.conversationId
+        // Use null coalescing to handle potential undefined
+        this.activeConversation = response.conversationId ?? null
         return response
       } catch (error: any) {
         this.error = error.message
@@ -46,7 +53,7 @@ export const useChatStore = defineStore('chat', {
 
       try {
         this.loading = true
-        const response = await $fetch(`/api/chat/${this.activeConversation}/messages`, {
+        const response: ChatResponse = await $fetch(`/api/chat/${this.activeConversation}/messages`, {
           method: 'POST',
           body: { content }
         })
@@ -54,7 +61,21 @@ export const useChatStore = defineStore('chat', {
         if (!this.conversations[this.activeConversation]) {
           this.conversations[this.activeConversation] = []
         }
-        this.conversations[this.activeConversation].push(response)
+        
+        // Convert ChatResponse to Message if messages are returned
+        if (response.messages && response.messages.length > 0) {
+          this.conversations[this.activeConversation].push(...response.messages)
+        } else if (response.messageId) {
+          // If no full messages, create a minimal Message object
+          const newMessage: Message = {
+            id: response.messageId,
+            senderId: '', // You might want to get this from your auth context
+            receiverId: '', // You might want to get this from the conversation
+            content: content,
+            timestamp: new Date()
+          }
+          this.conversations[this.activeConversation].push(newMessage)
+        }
         
         return response
       } catch (error: any) {
@@ -68,8 +89,8 @@ export const useChatStore = defineStore('chat', {
     async loadMessages(conversationId: string) {
       try {
         this.loading = true
-        const response = await $fetch(`/api/chat/${conversationId}/messages`)
-        this.conversations[conversationId] = response.messages
+        const response: ChatResponse = await $fetch(`/api/chat/${conversationId}/messages`)
+        this.conversations[conversationId] = response.messages ?? []
         return response
       } catch (error: any) {
         this.error = error.message

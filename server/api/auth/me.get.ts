@@ -1,6 +1,6 @@
-import { requireAuth } from '../../utils/auth'
+ 
 import { User } from '../../models/user'
-import { createError } from 'h3'
+import { createError, EventHandlerRequest, H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -22,3 +22,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
+
+function requireAuth(event: H3Event<EventHandlerRequest>) {
+  throw new Error('Function not implemented.')
+}

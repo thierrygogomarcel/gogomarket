@@ -7,6 +7,11 @@ interface WalletState {
   error: string | null
 }
 
+interface WalletResponse {
+  newBalance: number
+  message?: string
+}
+
 export const useWalletStore = defineStore('wallet', {
   state: (): WalletState => ({
     balance: 0,
@@ -19,7 +24,7 @@ export const useWalletStore = defineStore('wallet', {
     async topUp(amount: number) {
       try {
         this.loading = true
-        const response = await $fetch('/api/wallet/topup', {
+        const response = await $fetch<WalletResponse>('/api/wallet/topup', {
           method: 'POST',
           body: { amount }
         })
@@ -36,7 +41,7 @@ export const useWalletStore = defineStore('wallet', {
     async withdraw(amount: number) {
       try {
         this.loading = true
-        const response = await $fetch('/api/wallet/withdraw', {
+        const response = await $fetch<WalletResponse>('/api/wallet/withdraw', {
           method: 'POST',
           body: { amount }
         })
