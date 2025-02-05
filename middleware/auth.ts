@@ -1,48 +1,53 @@
-// middleware/auth.ts
-import { jwtDecode } from 'jwt-decode';
-import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app';
-import { toast } from 'vue3-toastify';
+import { defineEventHandler, getHeader } from 'h3'
+import * as jwt from 'jsonwebtoken'
+import { createError } from 'h3' 
+import { logger } from 'nuxt/kit'
+import { useRuntimeConfig } from 'nuxt/app'
 
-export default defineNuxtRouteMiddleware((to) => {
-  // Définir les routes publiques
-  const publicRoutes = ['/', '/connexion', '/inscription', '/a-propos'];
+// Add this interface to define the expected JWT payload structure
+interface CustomJwtPayload extends jwt.JwtPayload {
+  role?: string
+  sub?: string
+}
 
-  // Si la route est publique, ignorer la vérification
-  if (publicRoutes.includes(to.path)) {
-    return;
-  }
+export default defineEventHandler(async (event) => {
+  try {
+    const token = getHeader(event, 'Authorization')?.split(' ')[1]
 
-  // Fonction pour récupérer le token JWT
-  const getAuthToken = () => {
-    const token = localStorage.getItem('auth_token'); // Ou utilisez un cookie
-    return token || null;
-  };
-
-  // Fonction pour décoder le token et vérifier l'utilisateur
-  const getAuthenticatedUser = () => {
-    const token = getAuthToken();
-    if (!token) return null;
-
-    try {
-      // Décoder le JWT pour récupérer les infos utilisateur
-      const user = jwtDecode(token);
-      
-
-      return user;
-    } catch (error) {
-      console.error('Invalid token:', error);
-      return null;
+    if (!token) {
+      logger.warn('Missing authentication token')
+      throw createError({ statusCode: 401, message: 'Token manquant' })
     }
-  };
 
-  // Récupérer l'utilisateur authentifié
-  const user = getAuthenticatedUser();
-  // Liste des routes protégées
-  const protectedRoutes = ['/dashboard', '/publier'];
+    const config = useRuntimeConfig()
+    if (!config.jwtSecret) {
+      logger.error('JWT Secret is not configured')
+      throw createError({ statusCode: 500, message: 'Configuration error' })
+    }
+    const decoded = jwt.verify(token, config.jwtSecret as string) as CustomJwtPayload
+    
+    // Ajouter les informations de l'utilisateur au contexte
+    event.context.user = decoded
 
-  // Vérifier l'accès aux routes protégées
-  if (protectedRoutes.includes(to.path) && !user) {
-    toast.error('Veuillez vous connecter pour accéder à cette page');
-    return navigateTo('/connexion');
+    // Ajouter les headers en fonction du rôle
+    if (decoded.role === 'admin') {
+      event.node.res.setHeader('X-Admin-Access', 'true')
+      event.node.res.setHeader('X-Admin-Permissions', 'full')
+    }
+
+    logger.info('User authenticated successfully', { userId: decoded.sub })
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      logger.warn('Token expired')
+      throw createError({ statusCode: 401, message: 'Token expiré' })
+    }
+    
+    if (error instanceof jwt.JsonWebTokenError) {
+      logger.warn('Invalid token')
+      throw createError({ statusCode: 401, message: 'Token invalide' })
+    }
+
+    logger.error('Authentication error', { error })
+    throw createError({ statusCode: 500, message: 'Erreur d\'authentification' })
   }
-});
+})

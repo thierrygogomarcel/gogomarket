@@ -230,105 +230,129 @@
    </header>
  </template>
  
- <script setup lang="ts">
- import { ref, computed } from 'vue'
- import { useAuth } from '~/composables/useAuth'
- import { useRouter } from 'vue-router'
- import { useToast } from '~/composables/useToast'
- 
- const router = useRouter()
- const auth = useAuth()
- const toast = useToast()
- const showPassword = ref(false)
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useAuth } from '~/composables/useAuth'
+import { useRouter } from 'vue-router'
+import { useToast } from '~/composables/useToast'
 
- const email = ref('')
- const password = ref('')
- const loading = ref(false)
- const showModal = ref(false);
- 
- const isAuthenticated = computed(() => {
-   console.log('Authentication state:', auth.isAuthenticated)
-   return auth.isAuthenticated
- })
- const user = computed(() => {
-   console.log('User object:', auth.state.user)
-   return auth.state.user
- })
- const isAdmin = computed(() => {
-   const adminStatus = user.value?.role === 'admin'
-   console.log('Is Admin:', adminStatus, 'User role:', user.value?.role)
-   return adminStatus
- })
- const isProducer = computed(() => {
-   const producerStatus = user.value?.userType === 'producer'
-   console.log('Is Producer:', producerStatus, 'User type:', user.value?.userType)
-   return producerStatus
- })
- 
- const userTypeLabel = computed(() => {
-   const types = {
-     admin: 'Administrateur',
-     producer: 'Producteur',
-     buyer: 'Acheteur',
-     transport: 'Transporteur'
-   }
-   const userType = user.value?.userType
-   return userType ? (types[userType as keyof typeof types] || userType) : ''
- })
- 
- const dashboardLink = computed(() => {
-   if (isAdmin.value) return '/admin/dashboard'
-   if (isProducer.value) return '/dashboard/SellerDashboard'
-   return '/dashboard/BuyerDashboard'
- })
- 
- const userAvatar = computed(() => {
-   if (user.value?.avatarUrl) return user.value.avatarUrl
-   const type = user.value?.userType
-   const name = user.value?.fullName || 'user'
-   return `https://api.dicebear.com/7.x/personas/svg?seed=${type}-${name}`
- })
- 
- const handleLogin = async () => {
-   try {
-     loading.value = true
-     await auth.login(email.value, password.value)
-     toast.success('Connexion réussie')
-     email.value = ''
-     password.value = ''
-   } catch (error: any) {
-     toast.error('Email ou mot de passe incorrect')
-   } finally {
-     loading.value = false
-   }
- }
- 
- const handleLogout = () => {
-   auth.logout()
-   toast.success('Déconnexion réussie')
-   router.push('/')
- }
- 
- const showInfo = () => {
-   showModal.value = true;
- };
- const handleDeleteAll = async () => {
-   if (!confirm('Êtes-vous sûr de vouloir supprimer toutes les données ? Cette action est irréversible.')) {
-     return
-   }
- 
-   try {
-     await $fetch('/api/users/delete-all', {
-       method: 'DELETE',
-       headers: {
-         Authorization: `Bearer ${auth.state.token}`
-       }
-     })
-     toast.success('Toutes les données ont été supprimées avec succès')
-     auth.logout()
-     router.push('/connexion')
-   } catch (error: any) {
-     toast.error('Erreur lors de la suppression des données')
-   }
- }
- </script>
+const router = useRouter()
+const auth = useAuth()
+const toast = useToast()
+const showPassword = ref(false)
+
+const email = ref('')
+const password = ref('')
+const loading = ref(false)
+const showModal = ref(false);
+
+const isAuthenticated = computed(() => {
+  console.log('Authentication state:', auth.isAuthenticated)
+  return auth.isAuthenticated
+})
+const user = computed(() => {
+  console.log('User object:', auth.state.user)
+  return auth.state.user
+})
+const isAdmin = computed(() => {
+  const adminStatus = user.value?.role === 'admin'
+  console.log('Is Admin:', adminStatus, 'User role:', user.value?.role)
+  return adminStatus
+})
+const isProducer = computed(() => {
+  const producerStatus = user.value?.userType === 'producer'
+  console.log('Is Producer:', producerStatus, 'User type:', user.value?.userType)
+  return producerStatus
+})
+
+const userTypeLabel = computed(() => {
+  const types = {
+    admin: 'Administrateur',
+    producer: 'Producteur',
+    buyer: 'Acheteur',
+    transport: 'Transporteur'
+  }
+  const userType = user.value?.userType
+  return userType ? (types[userType as keyof typeof types] || userType) : ''
+})
+
+const dashboardLink = computed(() => {
+  if (isAdmin.value) return '/admin/dashboard'
+  if (isProducer.value) return '/dashboard/SellerDashboard'
+  return '/dashboard/BuyerDashboard'
+})
+
+const userAvatar = computed(() => {
+  if (user.value?.avatarUrl) return user.value.avatarUrl
+  const type = user.value?.userType
+  const name = user.value?.fullName || 'user'
+  return `https://api.dicebear.com/7.x/personas/svg?seed=${type}-${name}`
+})
+
+const handleLogin = async () => {
+  try {
+    loading.value = true
+    await auth.login(email.value, password.value)
+    toast.success('Connexion réussie')
+    email.value = ''
+    password.value = ''
+  } catch (error: any) {
+    toast.error('Email ou mot de passe incorrect')
+  } finally {
+    loading.value = false
+  }
+}
+
+const handleLogout = () => {
+  auth.logout()
+  toast.success('Déconnexion réussie')
+  router.push('/')
+}
+
+const showInfo = () => {
+  showModal.value = true;
+};
+
+const handleDeleteAll = async () => {
+  if (!confirm('Êtes-vous sûr de vouloir supprimer toutes les données ? Cette action est irréversible.')) {
+    return
+  }
+
+  try {
+    await $fetch('/api/users/delete-all', {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${auth.state.token}`
+      }
+    })
+    toast.success('Toutes les données ont été supprimées avec succès')
+    auth.logout()
+    router.push('/connexion')
+  } catch (error: any) {
+    toast.error('Erreur lors de la suppression des données')
+  }
+}
+
+// Surveiller les changements d'authentification pour mettre à jour les headers
+watch(() => auth.state.token, (newToken) => {
+  if (newToken) {
+    // Mettre à jour les headers globaux pour les requêtes
+    const headers = {
+      'Authorization': `Bearer ${newToken}`,
+      'Content-Type': 'application/json'
+    }
+
+    if (auth.state.user?.role === 'admin') {
+      Object.assign(headers, {
+        'X-Admin-Access': 'true',
+        'X-Admin-Permissions': 'full'
+      })
+    }
+
+    // Mettre à jour les headers globaux
+    $fetch.create({
+      headers
+    })
+  }
+})
+</script>

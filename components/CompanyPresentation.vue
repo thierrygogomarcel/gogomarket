@@ -94,7 +94,7 @@ const closePresentation = () => {
 onMounted(() => {
   autoCloseTimer = window.setTimeout(() => {
     closePresentation()
-  }, 15000) // 15 secondes
+  }, 900000) // 15 minutes
 })
 
 onBeforeUnmount(() => {

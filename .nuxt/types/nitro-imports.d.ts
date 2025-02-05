@@ -14,7 +14,6 @@ declare global {
   const callNodeListener: typeof import('../../node_modules/h3')['callNodeListener']
   const clearResponseHeaders: typeof import('../../node_modules/h3')['clearResponseHeaders']
   const clearSession: typeof import('../../node_modules/h3')['clearSession']
-  const comparePassword: typeof import('../../server/utils/auth')['comparePassword']
   const connectDB: typeof import('../../server/utils/db')['connectDB']
   const createApp: typeof import('../../node_modules/h3')['createApp']
   const createAppEventHandler: typeof import('../../node_modules/h3')['createAppEventHandler']
@@ -137,14 +136,10 @@ declare global {
   const useSession: typeof import('../../node_modules/h3')['useSession']
   const useStorage: typeof import('../../node_modules/nitropack/dist/runtime/internal/storage')['useStorage']
   const validateData: typeof import('../../server/utils/validation')['validateData']
-  const verifyToken: typeof import('../../server/utils/auth')['verifyToken']
   const writeEarlyHints: typeof import('../../node_modules/h3')['writeEarlyHints']
 }
 // for type re-export
 declare global {
-  // @ts-ignore
-  export type { JwtPayloadWithUserType } from '../../server/utils/auth'
-  import('../../server/utils/auth')
   // @ts-ignore
   export type { AppError } from '../../server/utils/error'
   import('../../server/utils/error')
@@ -163,7 +158,7 @@ export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error';
 export { appendCorsHeaders, appendCorsPreflightHeaders, appendHeader, appendHeaders, appendResponseHeader, appendResponseHeaders, assertMethod, callNodeListener, clearResponseHeaders, clearSession, createApp, createAppEventHandler, createError, createEvent, createEventStream, createRouter, defaultContentType, defineEventHandler, defineLazyEventHandler, defineNodeListener, defineNodeMiddleware, defineRequestMiddleware, defineResponseMiddleware, defineWebSocket, defineWebSocketHandler, deleteCookie, dynamicEventHandler, eventHandler, fetchWithEvent, fromNodeMiddleware, fromPlainHandler, fromWebHandler, getCookie, getHeader, getHeaders, getMethod, getProxyRequestHeaders, getQuery, getRequestFingerprint, getRequestHeader, getRequestHeaders, getRequestHost, getRequestIP, getRequestPath, getRequestProtocol, getRequestURL, getRequestWebStream, getResponseHeader, getResponseHeaders, getResponseStatus, getResponseStatusText, getRouterParam, getRouterParams, getSession, getValidatedQuery, getValidatedRouterParams, handleCacheHeaders, handleCors, isCorsOriginAllowed, isError, isEvent, isEventHandler, isMethod, isPreflightRequest, isStream, isWebResponse, lazyEventHandler, parseCookies, promisifyNodeListener, proxyRequest, readBody, readFormData, readMultipartFormData, readRawBody, readValidatedBody, removeResponseHeader, sanitizeStatusCode, sanitizeStatusMessage, sealSession, send, sendError, sendIterable, sendNoContent, sendProxy, sendRedirect, sendStream, sendWebResponse, serveStatic, setCookie, setHeader, setHeaders, setResponseHeader, setResponseHeaders, setResponseStatus, splitCookiesString, toEventHandler, toNodeListener, toPlainHandler, toWebHandler, toWebRequest, unsealSession, updateSession, useBase, useSession, writeEarlyHints } from 'h3';
 export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from '../../node_modules/nuxt/dist/core/runtime/nitro/paths';
 export { defineAppConfig } from '../../node_modules/nuxt/dist/core/runtime/nitro/config';
-export { hashPassword, comparePassword, verifyToken, getUserFromToken, requireAuth } from '../../server/utils/auth';
+export { hashPassword, getUserFromToken, requireAuth } from '../../server/utils/auth';
 export { default as db, connectDB, disconnectDB } from '../../server/utils/db';
 export { AppError, handleError } from '../../server/utils/error';
 export { logger } from '../../server/utils/logger';

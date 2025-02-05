@@ -138,7 +138,6 @@
     "../node_modules/@pinia/nuxt/runtime/server",
     "../node_modules/@vueuse/nuxt/runtime/server",
     "../node_modules/@nuxtjs/color-mode/runtime/server",
-    "../node_modules/nuxt/node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "./types/nitro.d.ts",
     "../**/*",
@@ -151,7 +150,6 @@
     "../node_modules/@pinia/nuxt/node_modules",
     "../node_modules/@vueuse/nuxt/node_modules",
     "../node_modules/@nuxtjs/color-mode/node_modules",
-    "../node_modules/nuxt/node_modules/@nuxt/devtools/node_modules",
     "../node_modules/@nuxt/telemetry/node_modules",
     "../dist"
   ]

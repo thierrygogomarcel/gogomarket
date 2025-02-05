@@ -1,5 +1,4 @@
 import { defineNuxtConfig } from 'nuxt/config'
- 
 
 export default defineNuxtConfig({
   ssr: true,
@@ -38,7 +37,8 @@ export default defineNuxtConfig({
       ]
     }
   },
-//@ts-ignore
+
+  //@ts-ignore
   colorMode: {
     preference: 'light',
     fallback: 'light',
@@ -46,11 +46,12 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    jwtSecret: process.env.JWT_SECRET,
+    jwtSecret: process.env.JWT_SECRET || 'your-fallback-development-secret-key-change-in-production',
     jwtExpiresIn: process.env.JWT_EXPIRES_IN,
     mongodbUri: process.env.MONGODB_URI,
     public: {
-      apiBase: process.env.API_BASE_URL || 'http://localhost:3000'
+      apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000'
     }
   },
 
@@ -59,12 +60,9 @@ export default defineNuxtConfig({
   },
 
   devtools: {
-    enabled: process.env.NODE_ENV !== 'production'
+    enabled: false
+    // enabled: process.env.NODE_ENV !== 'production'
   },
-
-  serverMiddleware: [
-    { path: '/api', handler: '~/server/api' }
-  ],
 
   hooks: {
     'pages:extend'(pages) {
@@ -83,5 +81,5 @@ export default defineNuxtConfig({
     }
   },
 
-  compatibilityDate: '2025-01-30'
+  compatibilityDate: '2025-02-05'
 })
