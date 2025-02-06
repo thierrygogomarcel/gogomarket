@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRuntimeConfig } from '../utils/config'
+import { useRuntimeConfig } from 'nuxt/app'
 
 const props = defineProps<{
   src?: string

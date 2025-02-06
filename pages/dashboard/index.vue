@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useAuth } from '~/composables/useAuth'
+import { useAuth } from '~/composables/useCustomAuth'
 import AdminDashboard from '../admin/dashboard.vue'
 import SellerDashboard from './SellerDashboard.vue'
 import BuyerDashboard from './BuyerDashboard.vue'

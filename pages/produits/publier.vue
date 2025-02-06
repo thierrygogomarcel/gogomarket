@@ -112,7 +112,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
-import { useAuth } from '~/composables/useAuth';
+import { useAuth } from '~/composables/useCustomAuth';
 
 // Types
 interface Product {

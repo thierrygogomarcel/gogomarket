@@ -1,10 +1,10 @@
 import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app'
-import { useAuth } from '../composables/useAuth'
+import { useCustomAuth } from '../composables/useCustomAuth'
 import { useToast } from '../composables/useToast'
 
 // Définition d'un middleware de route pour Nuxt
 export default defineNuxtRouteMiddleware((to: { path: string }) => {
-  const auth = useAuth() // Récupération de l'état d'authentification
+  const auth = useCustomAuth() // Récupération de l'état d'authentification
   const toast = useToast() // Récupération du service de notifications
 
   console.log(`Navigation vers : ${to.path}`) // Log pour suivre la route demandée

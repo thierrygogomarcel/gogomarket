@@ -78,7 +78,7 @@
   <script setup lang="ts">
   import { ref, onMounted, watch } from 'vue'
   import { useToast } from '~/composables/useToast'
-  import { useAuth } from '~/composables/useAuth'
+  import { useAuth } from '~/composables/useCustomAuth'
   import { navigateTo } from 'nuxt/app'
   
   interface Offer {

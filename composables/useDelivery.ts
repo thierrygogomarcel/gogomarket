@@ -1,4 +1,4 @@
-```typescript
+ 
 import { ref, computed } from 'vue'
 import { useDeliveryStore } from '~/stores/deliveryStore'
 import { useToast } from './useToast'
@@ -28,5 +28,4 @@ export const useDelivery = () => {
     loading: computed(() => deliveryStore.loading),
     calculateDeliveryFees
   }
-}
-```
+} 

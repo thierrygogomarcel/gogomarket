@@ -232,7 +232,7 @@
  
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { useAuth } from '~/composables/useAuth'
+import { useAuth } from '~/composables/useCustomAuth'
 import { useRouter } from 'vue-router'
 import { useToast } from '~/composables/useToast'
 

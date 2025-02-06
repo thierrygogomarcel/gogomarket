@@ -77,7 +77,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useAuth } from '~/composables/useAuth'
+import { useAuth } from '~/composables/useCustomAuth'
 
 interface User {
   _id: string

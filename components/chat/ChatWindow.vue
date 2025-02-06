@@ -63,7 +63,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useChat } from '~/composables/useChat'
-import { useAuth } from '~/composables/useAuth'
+import { useAuth } from '~/composables/useCustomAuth'
 
 const props = defineProps<{
   recipientId: string

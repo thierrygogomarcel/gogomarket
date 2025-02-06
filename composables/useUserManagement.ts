@@ -1,4 +1,4 @@
-```typescript
+ 
 import { ref } from 'vue'
 import { useToast } from './useToast'
 
@@ -56,5 +56,4 @@ export const useUserManagement = () => {
     updateUserRole,
     updateUserStatus
   }
-}
-```
+} 

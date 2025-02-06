@@ -52,7 +52,7 @@
   <script setup lang="ts">
   import { ref, onMounted } from 'vue'
   import { useToast } from '~/composables/useToast'
-  import { useAuth } from '~/composables/useAuth'
+  import { useAuth } from '~/composables/useCustomAuth'
   
   interface Sale {
     _id: string;

@@ -1,5 +1,5 @@
- 
-import { User } from '../../models/user'
+ import { User } from '../../models/user'
+import { UserToken } from '../../middleware/auth'
 import { createError, EventHandlerRequest, H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
@@ -23,6 +23,13 @@ export default defineEventHandler(async (event) => {
   }
 })
 
-function requireAuth(event: H3Event<EventHandlerRequest>) {
-  throw new Error('Function not implemented.')
+function requireAuth(event: H3Event<EventHandlerRequest>): UserToken {
+  const user = event.context.user as UserToken
+  if (!user) {
+    throw createError({
+      statusCode: 401,
+      message: 'Non authentifié'
+    })
+  }
+  return user
 }

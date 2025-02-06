@@ -78,7 +78,7 @@ import { ref, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
-import { useAuth } from '~/composables/useAuth'
+import { useAuth } from '~/composables/useCustomAuth'
 
 const form = ref({ name: '', category: '', description: '', price: null, stock: null, paypal: '', images: [] })
 const categories = ['Légumes', 'Fruits', 'Céréales', 'Tubercules']

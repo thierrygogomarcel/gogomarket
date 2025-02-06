@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col space-y-2">
-      <label :for="id" class="block text-sm font-medium text-gray-700">
+      <label :for="roleSelectId" class="block text-sm font-medium text-gray-700">
         {{ label }}
       </label>
       <select
-        :id="id"
+        :id="roleSelectId"
         v-model="selectedRole"
         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md"
         :disabled="loading"
@@ -31,10 +31,10 @@
       <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
     </div>
   </template>
-  
+<!--   
   <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { useRoles } from '~/composables/useRoles'
+  import useRoles from '~/composables/useRoles'
   import { useUserManagement } from '~/composables/useUserManagement'
   
   const props = defineProps<{
@@ -50,10 +50,14 @@
   }>()
   
   const { roles, fetchRoles } = useRoles()
+  
   const { updateUserRole, loading } = useUserManagement()
   
   const selectedRole = ref(props.currentRole)
   const error = ref<string | null>(null)
+  
+  // Add a default value for id if not provided
+  const roleSelectId = props.id || `role-select-${props.userId}`
   
   // Charger les rôles au montage du composant
   onMounted(async () => {
@@ -79,4 +83,4 @@
       selectedRole.value = props.currentRole
     }
   })
-  </script>
+  </script> -->

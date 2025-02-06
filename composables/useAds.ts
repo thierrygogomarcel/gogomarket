@@ -1,4 +1,4 @@
-```typescript
+ 
 import { ref, computed } from 'vue'
 import { useAdsStore } from '~/stores/adsStore'
 import { useToast } from './useToast'
@@ -36,5 +36,4 @@ export const useAds = () => {
     createAd,
     getSponsoredAds
   }
-}
-```
+} 

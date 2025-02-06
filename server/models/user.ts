@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
 export interface UserDocument extends mongoose.Document {
+  userId: any;
   email: string;
   password: string;
   fullName: string;

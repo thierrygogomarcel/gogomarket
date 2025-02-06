@@ -1,4 +1,4 @@
-```typescript
+
 import { ref, computed } from 'vue'
 import { useToast } from './useToast'
 
@@ -39,5 +39,4 @@ export const useComparison = () => {
     loading: computed(() => loading.value),
     compareProducts
   }
-}
-```
+} 

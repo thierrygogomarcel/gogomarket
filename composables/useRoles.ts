@@ -1,8 +1,7 @@
-```typescript
 import { ref, computed } from 'vue'
 import { useToast } from './useToast'
 
-export const useRoles = () => {
+export default function useRoles() {
   const roles = ref([])
   const loading = ref(false)
   const error = ref<string | null>(null)
@@ -27,4 +26,3 @@ export const useRoles = () => {
     fetchRoles
   }
 }
-```

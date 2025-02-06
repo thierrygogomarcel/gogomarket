@@ -1,4 +1,4 @@
-```typescript
+ 
 import { defineStore } from 'pinia'
 
 interface Ad {
@@ -54,5 +54,4 @@ export const useAdsStore = defineStore('ads', {
       }
     }
   }
-})
-```
+}) 

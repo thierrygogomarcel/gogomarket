@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from "nuxt/config";
 
-// nuxt.config.ts
 export default defineNuxtConfig({
   ssr: true,
 
@@ -9,18 +8,25 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    // Variables privées côté serveur
     jwtSecret: process.env.JWT_SECRET || '', 
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || '1h', 
     mongodbUri: process.env.MONGODB_URI,
-    // Variables publiques accessibles côté client
+
     public: {
       apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
-      baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+      auth: { // 👉 Déplacer la config ici
+        isEnabled: true,
+        baseURL: '/api/auth',
+        provider: {
+          type: 'local'
+        }
+      }
     }
   },
 
   modules: [
+    '@sidebase/nuxt-auth',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@vueuse/nuxt',
@@ -37,4 +43,4 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2025-02-05'
-})
+});

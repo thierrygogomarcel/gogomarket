@@ -1,4 +1,4 @@
- 
+ import { User, UserDocument } from '../../models/user'
 import { Product } from '../../models/product'
 import { createError, EventHandlerRequest, H3Event } from 'h3'
 
@@ -52,6 +52,13 @@ export default defineEventHandler(async (event) => {
   }
 })
 
-function requireAuth(event: H3Event<EventHandlerRequest>) {
-  throw new Error('Function not implemented.')
+function requireAuth(event: H3Event<EventHandlerRequest>): UserDocument {
+  const user = event.context.user as unknown as UserDocument
+  if (!user) {
+    throw createError({
+      statusCode: 401,
+      message: 'Non authentifié'
+    })
+  }
+  return user
 }

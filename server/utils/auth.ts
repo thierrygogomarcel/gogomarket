@@ -1,5 +1,5 @@
 import { H3Event, EventHandlerRequest } from 'h3'; 
-import { getServerSession } from ''; 
+import { getServerSession } from '#auth'; 
 
 export async function getUserFromToken(event: H3Event<EventHandlerRequest>) {
   const session = await getServerSession(event);

@@ -1,5 +1,5 @@
  
-import { requireAuth } from '~/utils/jwt'
+import { requireAuth } from '~/utils/jwt' 
 import { Transaction } from '../../models/transaction'
 import { createError } from 'h3'
 

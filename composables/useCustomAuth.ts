@@ -23,7 +23,7 @@ interface AuthState {
 }
 
 // Définition du store Pinia pour gérer l'authentification
-export const useAuth = defineStore('auth', () => {
+export const useCustomAuth = defineStore('auth', () => {
   // Définition de l'état initial du store
   const state = ref<AuthState>({
     token: useCookie('auth_token').value ?? null, // Récupération du token stocké dans un cookie
