@@ -1,8 +1,16 @@
-import jwt, { type JwtPayload, type SignOptions, type Secret } from 'jsonwebtoken';
-import { H3Event, createError } from 'h3'; 
-import { useRuntimeConfig } from 'nuxt/kit';
+// server/utils/jwt.ts    
 
+import type { H3Event } from "h3";
+import type { JwtPayload, Secret, SignOptions } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import { createError, useRuntimeConfig } from "nuxt/app";
+import { createError as h3CreateError, getHeader } from "h3";
 
+ 
+
+/**
+ * AuthenticatedUser est une extension de JwtPayload qui inclut les informations de l'utilisateur.
+ */
 export interface AuthenticatedUser extends JwtPayload {
   userId: string;
   email: string;
@@ -34,28 +42,28 @@ export const verifyToken = (token: string): AuthenticatedUser | null => {
     return jwt.verify(token, secret) as AuthenticatedUser;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      throw createError({
+      throw h3CreateError({
         statusCode: 401,
         message: 'Token expired',
-      });
+      } as { statusCode: number; message: string });
     } else if (error instanceof jwt.JsonWebTokenError) {
-      throw createError({
+      throw h3CreateError({
         statusCode: 401,
         message: 'Invalid token',
-      });
+      } as { statusCode: number; message: string });
     }
-    throw createError({
+    throw h3CreateError({
       statusCode: 500,
-      message: 'Error verifying token',
-    });
+      message: 'Unexpected error verifying token',
+    } as { statusCode: number; message: string });
   }
 };
 
-export const getUserFromEvent = (event: H3Event): AuthenticatedUser | null => {
-  const token = event.headers.get('authorization');
-  if (!token || !token.startsWith('Bearer ')) return null;
+export const getUserFromEvent = (event: H3Event): AuthenticatedUser | null => { 
+  const token = getHeader(event, 'authorization');
+  if (!token || !token.toString().startsWith('Bearer ')) return null;
 
-  const decoded = verifyToken(token.replace('Bearer ', ''));
+  const decoded = verifyToken(token.toString().replace('Bearer ', ''));
   return decoded;
 };
 
@@ -67,10 +75,10 @@ export const isAuthenticated = (event: H3Event) => {
 export const requireAuth = async (event: H3Event): Promise<AuthenticatedUser> => {
   const user = getUserFromEvent(event);
   if (!user) {
-    throw createError({
+    throw h3CreateError({
       statusCode: 401,
       message: 'Unauthorized',
-    });
+    } as any);
   }
   return user;
 };

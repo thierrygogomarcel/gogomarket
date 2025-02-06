@@ -1,5 +1,5 @@
 import { Product } from '../../models/product'
-import { createError } from 'h3'
+import { createError, defineEventHandler, getQuery, H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {

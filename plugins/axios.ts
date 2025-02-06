@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { defineNuxtPlugin, useRuntimeConfig } from 'nuxt/app'; // Utilisez #imports pour éviter les erreurs d'alias
+import { defineNuxtPlugin, useRuntimeConfig } from '#imports'; // Utilisez #imports pour éviter les erreurs d'alias
 import { useAuth } from '~/composables/useCustomAuth';
 
 export default defineNuxtPlugin(() => {

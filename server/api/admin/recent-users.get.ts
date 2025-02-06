@@ -1,5 +1,5 @@
  import { User, UserDocument } from '../../models/user'
-import { createError, EventHandlerRequest, H3Event } from 'h3'
+import { createError, defineEventHandler, H3Event } from 'h3'
 import { getCookie } from 'h3'
 
 export default defineEventHandler(async (event) => {

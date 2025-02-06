@@ -1,7 +1,7 @@
 // server/api/users/delete-all.ts
 import { User } from '../../models/user';
 import { Product } from '../../models/product';
-import { createError, EventHandlerRequest, H3Event, getHeader } from 'h3'; 
+import { createError, EventHandlerRequest, H3Event, getHeader, defineEventHandler } from 'h3'; 
 
 
 export default defineEventHandler(async (event) => {

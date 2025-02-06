@@ -1,7 +1,7 @@
  
 import { requireAuth } from '~/utils/jwt'
 import { User } from '../../../models/user'
-import { createError } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {

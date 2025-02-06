@@ -1,6 +1,6 @@
 // stores/auth.ts
-import { defineStore } from 'pinia'
 import { useCookie } from 'nuxt/app'
+import { defineStore } from 'pinia' 
 
 interface AuthState {
   token: string | null

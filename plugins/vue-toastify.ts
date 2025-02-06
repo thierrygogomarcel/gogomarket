@@ -1,5 +1,5 @@
 // plugins/vue-toastify.ts
-import { defineNuxtPlugin } from 'nuxt/app'
+import { defineNuxtPlugin } from '#imports'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 

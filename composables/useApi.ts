@@ -1,6 +1,6 @@
-import { useFetch, type AsyncData } from 'nuxt/app'
+import { useFetch, type AsyncData } from '#imports'
 import type { NitroFetchRequest } from 'nitropack'
-import type { UseFetchOptions } from 'nuxt/app'
+import type { UseFetchOptions } from '#imports'
 import type { Ref } from 'vue'
 
 export const useApi = async <DataT, ResT = DataT>(

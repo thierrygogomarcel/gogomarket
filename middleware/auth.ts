@@ -2,7 +2,7 @@ import { defineEventHandler, getHeader } from 'h3'
 import * as jwt from 'jsonwebtoken'
 import { createError } from 'h3' 
 import { logger } from 'nuxt/kit'
-import { useRuntimeConfig } from 'nuxt/app'
+import { useRuntimeConfig } from '#imports'
 
 // Add this interface to define the expected JWT payload structure
 interface CustomJwtPayload extends jwt.JwtPayload {

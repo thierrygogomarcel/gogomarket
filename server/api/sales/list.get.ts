@@ -1,5 +1,5 @@
 import { Sale } from '../../models/sale';
-import { createError } from 'h3';
+import { createError, defineEventHandler, getQuery } from 'h3';
 
 export default defineEventHandler(async (event) => {
   try {

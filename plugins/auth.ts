@@ -1,4 +1,4 @@
- import { defineNuxtPlugin, useCookie } from 'nuxt/app'   
+ import { defineNuxtPlugin, useCookie } from '#imports'   
 import { $fetch, type FetchOptions } from 'ofetch'
 
 export default defineNuxtPlugin((nuxtApp) => {

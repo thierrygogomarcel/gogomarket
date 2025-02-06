@@ -1,6 +1,7 @@
 import { User } from '../../models/user'
-import { createError } from 'h3' 
+import { createError, defineEventHandler, readBody } from 'h3' 
 import jwt from 'jsonwebtoken'
+import { useRuntimeConfig } from 'nuxt/app'
 
 export default defineEventHandler(async (event) => {
   try {

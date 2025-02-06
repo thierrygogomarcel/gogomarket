@@ -1,7 +1,7 @@
  
 import { requireAuth } from '~/utils/jwt' 
-import { Transaction } from '../../models/transaction'
-import { createError } from 'h3'
+import { Transaction } from '../../models/transaction' 
+import {  createError,EventHandlerRequest, H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {

@@ -1,6 +1,6 @@
  
 import { User } from '../../models/user'
-import { createError } from 'h3'
+import { createError, defineEventHandler, readMultipartFormData } from 'h3'
 import { promises as fs } from 'fs'
 import path from 'path'
 import { requireAuth } from '~/utils/jwt'

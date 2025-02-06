@@ -1,5 +1,5 @@
  
-import { createError } from 'h3'
+import { createError, defineEventHandler } from 'h3'
 import { requireAuth } from '~/utils/jwt'
 
 export default defineEventHandler(async (event) => {

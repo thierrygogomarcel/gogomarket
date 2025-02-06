@@ -1,4 +1,4 @@
-import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app'
+import { defineNuxtRouteMiddleware, navigateTo } from '#imports'
 import { useToast } from '~/composables/useToast'
 
 // Define an interface for the error object

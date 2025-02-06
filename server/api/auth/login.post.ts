@@ -4,6 +4,10 @@ import { createError, defineEventHandler, readBody } from 'h3'
 import bcrypt from 'bcryptjs'
 import { connectDB } from '../../utils/db' 
 import { useRuntimeConfig } from 'nuxt/app'
+ 
+
+const config = useRuntimeConfig();
+
 
 export default defineEventHandler(async (event) => {
   try {

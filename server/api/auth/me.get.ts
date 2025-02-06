@@ -33,3 +33,7 @@ function requireAuth(event: H3Event<EventHandlerRequest>): UserToken {
   }
   return user
 }
+
+function defineEventHandler(arg0: (event: any) => Promise<any>) {
+  throw new Error('Function not implemented.')
+}

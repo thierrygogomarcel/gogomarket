@@ -1,6 +1,6 @@
  
 import { User } from '../../models/user'
-import { createError } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
  
 import { validateData, registerSchema } from '../../utils/validation'
 

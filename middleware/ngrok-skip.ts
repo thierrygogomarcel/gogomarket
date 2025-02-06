@@ -1,5 +1,5 @@
 // middleware/ngrok-skip.ts
-import { defineNuxtRouteMiddleware } from 'nuxt/app'
+import { defineNuxtRouteMiddleware } from '#imports'
 
 export default defineNuxtRouteMiddleware(async () => {
   // Si vous avez ngrok dans votre flux, ajoutez l'en-tête ngrok-skip

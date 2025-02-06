@@ -3,7 +3,7 @@
 import { requireAuth } from '~/utils/jwt'
 import { Product } from '../../models/product'
 import { Transaction } from '../../models/transaction'
-import { createError } from 'h3'
+import { createError, defineEventHandler } from 'h3'
 
 export default defineEventHandler(async (event) => {
   try {

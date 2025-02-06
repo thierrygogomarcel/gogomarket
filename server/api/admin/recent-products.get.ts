@@ -1,3 +1,6 @@
+import {  defineEventHandler, H3Event } from 'h3'
+
+
 export default defineEventHandler(async (event) => {
   // Implement your logic to fetch recent products
   // This is a placeholder implementation, replace with your actual database query

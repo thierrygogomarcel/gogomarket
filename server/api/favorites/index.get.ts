@@ -31,3 +31,7 @@ export default defineEventHandler(async (event) => {
 function requireAuth(event: H3Event<EventHandlerRequest>) {
   throw new Error('Function not implemented.')
 }
+
+function defineEventHandler(arg0: (event: any) => Promise<{ favorites: any[] }>) {
+  throw new Error('Function not implemented.')
+}

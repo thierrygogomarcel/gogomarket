@@ -1,6 +1,6 @@
-import { useRuntimeConfig } from "nuxt/app"
-
 // server/utils/config.ts
+import { useRuntimeConfig } from "nuxt/app" 
+
 export const getServerConfig = () => {
     const config = useRuntimeConfig()
     return {

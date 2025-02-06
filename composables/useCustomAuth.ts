@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { useCookie } from 'nuxt/app'
+import { useCookie } from '#imports'
 
 // Définition de l'interface représentant les données d'un utilisateur
 interface UserData {

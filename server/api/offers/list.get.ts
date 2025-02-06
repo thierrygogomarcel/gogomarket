@@ -1,11 +1,12 @@
-import { H3Event } from "h3"; 
+import { createError, defineEventHandler, H3Event } from "h3"; 
 import { getUserFromToken } from "~/server/utils/auth";   
 import { Offer } from "~/server/models/Offer";
+import { UserDocument } from "~/server/models/user";  
 
 export default defineEventHandler(async (event: H3Event) => {
   try {
     // Vérifier l'authentification
-    const user = await getUserFromToken(event);
+    const user: UserDocument = await getUserFromToken(event);
     if (!user) {
       throw createError({ statusCode: 401, statusMessage: "Non autorisé" });
     }

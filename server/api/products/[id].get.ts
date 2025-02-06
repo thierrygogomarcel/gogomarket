@@ -30,3 +30,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 });
+
+function defineEventHandler(arg0: (event: any) => Promise<any>) {
+  throw new Error('Function not implemented.');
+}

@@ -1,5 +1,5 @@
 import { Product } from '../../models/product';
-import { createError } from 'h3';
+import { createError, defineEventHandler, readBody } from 'h3';
 import { requireAuth, AuthenticatedUser } from '~/utils/jwt'; 
 
 export default defineEventHandler(async (event) => {

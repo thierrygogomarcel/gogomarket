@@ -1,8 +1,8 @@
  import { User, UserDocument } from '../../models/user'
 import { Product } from '../../models/product'
-import { createError, EventHandlerRequest, H3Event } from 'h3'
+import { createError, defineEventHandler, EventHandlerRequest, H3Event } from 'h3'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: H3Event<EventHandlerRequest>) => {
   try {
     const user = await requireAuth(event)
     const { productId, duration, budget } = await readBody(event)
@@ -62,3 +62,7 @@ function requireAuth(event: H3Event<EventHandlerRequest>): UserDocument {
   }
   return user
 }
+function readBody(event: H3Event<EventHandlerRequest>): { productId: any; duration: any; budget: any } | PromiseLike<{ productId: any; duration: any; budget: any }> {
+  throw new Error('Function not implemented.')
+}
+

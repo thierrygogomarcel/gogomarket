@@ -1,5 +1,5 @@
  
-import { requireAuth } from  '../~/utils/jwt'
+import { requireAuth } from '~/utils/jwt'
 import { Transaction } from '../../../models/transaction'
 import { createError } from 'h3'
 
@@ -42,3 +42,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
+
+function defineEventHandler(arg0: (event: any) => Promise<any>) {
+  throw new Error('Function not implemented.')
+}

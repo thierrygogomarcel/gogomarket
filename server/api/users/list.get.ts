@@ -1,5 +1,5 @@
 import { User } from '../../models/user';
-import { createError } from 'h3';
+import { createError, defineEventHandler, getQuery } from 'h3';
 import { requireAuth } from '~/utils/jwt';
 
 export default defineEventHandler(async (event) => {
